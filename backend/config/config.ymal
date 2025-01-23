@@ -1,0 +1,13 @@
+app:
+  name: GatorFish
+  port: :3000
+
+database:
+  dsn: __
+  MaxIdleConns: 10
+  MaxOpenCons: 114
+
+redis:
+  addr: localhost:6379
+  DB: 0
+  Password: ""
