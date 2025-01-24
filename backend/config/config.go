@@ -23,7 +23,7 @@ type Config struct {
 	}
 }
 
-var appConfig *Config
+var AppConfig *Config
 
 func InitConfig() {
 	viper.SetConfigName("config")
@@ -34,9 +34,9 @@ func InitConfig() {
 		log.Fatalf("Failed to read the config:%v", err)
 	}
 
-	appConfig = &Config{}
+	AppConfig = &Config{}
 
-	if err := viper.Unmarshal(appConfig); err != nil {
+	if err := viper.Unmarshal(AppConfig); err != nil {
 		log.Fatalf("Failed to decode:%v", err)
 	}
 	initDatabase()

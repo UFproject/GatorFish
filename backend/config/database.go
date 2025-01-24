@@ -10,15 +10,15 @@ import (
 )
 
 func initDatabase() {
-	dsn := appConfig.Database.Dsn
+	dsn := AppConfig.Database.Dsn
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Failed to init the database:%v", err)
 	}
 	sqlDB, err := db.DB()
 
-	sqlDB.SetMaxIdleConns(appConfig.Database.MaxIdleConns)
-	sqlDB.SetMaxOpenConns(appConfig.Database.MaxOpenConns)
+	sqlDB.SetMaxIdleConns(AppConfig.Database.MaxIdleConns)
+	sqlDB.SetMaxOpenConns(AppConfig.Database.MaxOpenConns)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	if err != nil {

@@ -8,9 +8,9 @@ import (
 )
 
 func initRedis() {
-	addr := appConfig.Redis.Addr
-	db := appConfig.Redis.DB
-	password := appConfig.Redis.Password
+	addr := AppConfig.Redis.Addr
+	db := AppConfig.Redis.DB
+	password := AppConfig.Redis.Password
 
 	RedisClient := redis.NewClient(&redis.Options{
 		Addr:     addr,
