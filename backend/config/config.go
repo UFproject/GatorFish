@@ -40,5 +40,5 @@ func InitConfig() {
 		log.Fatalf("Failed to decode:%v", err)
 	}
 	initDatabase()
-	initRedis()
+	//initRedis()
 }
