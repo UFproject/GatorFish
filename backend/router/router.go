@@ -1,6 +1,7 @@
 package router
 
 import (
+	"GatorFish/controllers"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -18,11 +19,11 @@ func SetupRouter() *gin.Engine {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
-	auth := r.Group("/api/auth")
+	auth := r.Group("/auth")
 	{
-		auth.POST("/login", nil)
+		auth.POST("/login", controllers.Login)
 
-		auth.POST("/register", nil)
+		auth.POST("/register", controllers.Register)
 	}
 	return r
 }
