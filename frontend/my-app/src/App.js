@@ -1,16 +1,45 @@
 import { useState } from "react";
-import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import { Button, Box } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
+
+import Productcard from "./components/Productcard";
 
 
 function App() {
-  
 
   return (
-    <div className="App">
-      
-      <Button variant="contained">购买</Button>
-    </div>
+    <Box className="App">
+      <Box style={{margin: 100}}>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 4, md: 2 }}>
+            <Productcard/>
+          </Grid>
+          <Grid size={{ xs: 4, md: 2 }}>
+            <Productcard/>
+          </Grid>
+          <Grid size={{ xs: 4, md: 2 }}>
+            <Productcard/>
+          </Grid>
+          <Grid size={{ xs: 4, md: 2 }}>
+            <Productcard/>
+          </Grid>
+          <Grid size={{ xs: 4, md: 2 }}>
+            <Productcard/>
+          </Grid>
+          <Grid size={{ xs: 4, md: 2 }}>
+            <Productcard/>
+          </Grid>
+          <Grid size={{ xs: 4, md: 2 }}>
+            <Productcard/>
+          </Grid>
+          <Grid size={{ xs: 4, md: 2 }}>
+            <Productcard/>
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
   );
 }
 
