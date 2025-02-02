@@ -25,5 +25,14 @@ func SetupRouter() *gin.Engine {
 
 		auth.POST("/register", controllers.Register)
 	}
+
+	items := r.Group("/items")
+	items.POST("/create", controllers.UploadItem)
+	items.POST("/Category", controllers.GetItemsByCategory)
+	//api.Use(middlewares.AuthMiddleWare())
+	{
+		//todo
+	}
+	r.Static("/uploads", "./uploads")
 	return r
 }
