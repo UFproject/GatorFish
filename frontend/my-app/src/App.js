@@ -3,47 +3,31 @@ import { styled } from '@mui/material/styles';
 import { Button, Box, Container } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
-
-import Productcard from "./components/Productcard";
-import AppAppBar from "./components/AppAppBar";
-
+import ProductCard from "./components/products/ProductCard";
+import AppAppBar from "./components/layout/AppAppBar";
+import CategoryMenu from "./components/layout/CategoryMenu";
+import FeaturedSection from "./components/layout/FeaturedSection";
+import { products } from "./data/mockData";
 
 function App() {
-
   return (
     <Box className="App">
-      <AppAppBar></AppAppBar>
+      <AppAppBar />
+      <CategoryMenu />
       <Container
         maxWidth="lg"
         component="main"
-        sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
+        sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          my: 16, 
+          gap: 4,
+          ml: '280px' // Add margin to account for CategoryMenu width
+        }}
       >
-        <Grid container spacing={2}>
-          <Grid size={{ xs: 6, md: 3 }}>
-            <Productcard/>
-          </Grid>
-          <Grid size={{ xs: 6, md: 3 }}>
-            <Productcard/>
-          </Grid>
-          <Grid size={{ xs: 6, md: 3 }}>
-            <Productcard/>
-          </Grid>
-          <Grid size={{ xs: 6, md: 3 }}>
-            <Productcard/>
-          </Grid>
-          <Grid size={{ xs: 6, md: 3 }}>
-            <Productcard/>
-          </Grid>
-          <Grid size={{ xs: 6, md: 3 }}>
-            <Productcard/>
-          </Grid>
-          <Grid size={{ xs: 6, md: 3 }}>
-            <Productcard/>
-          </Grid>
-          <Grid size={{ xs: 6, md: 3 }}>
-            <Productcard/>
-          </Grid>
-        </Grid>
+        <FeaturedSection title="Fashion Refresh" products={products} />
+        <FeaturedSection title="Digital Devices" products={products} />
+        <FeaturedSection title="Sports Equipment" products={products} />
       </Container>
     </Box>
   );
