@@ -3,15 +3,14 @@ import { styled } from '@mui/material/styles';
 import { Button, Box, Container } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
-import ProductCard from "./components/products/ProductCard";
-import AppAppBar from "./components/layout/AppAppBar";
-import CategoryMenu from "./components/layout/CategoryMenu";
-import FeaturedSection from "./components/layout/FeaturedSection";
-import { products } from "./data/mockData";
+import AppAppBar from "../../components/layout/AppAppBar";
+import CategoryMenu from "../../components/layout/CategoryMenu";
+import FeaturedSection from "../../components/layout/FeaturedSection";
+import { products } from "../../data/mockData";
 
-function App() {
+function Homepage() {
   return (
-    <Box className="App">
+    <Box>
       <AppAppBar />
       <CategoryMenu />
       <Container
@@ -33,4 +32,4 @@ function App() {
   );
 }
 
-export default App;
+export default Homepage;

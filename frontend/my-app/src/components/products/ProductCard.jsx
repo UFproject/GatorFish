@@ -20,7 +20,7 @@ const ProductCard = () => {
                 transition: 'all 0.3s ease-in-out'
             }
         }}>
-            <CardActionArea>
+            <CardActionArea href='/item' target='_blank'>
                 <CardMedia
                     component="img"
                     height="200"
