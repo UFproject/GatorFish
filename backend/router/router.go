@@ -29,6 +29,10 @@ func SetupRouter() *gin.Engine {
 	items := r.Group("/items")
 	items.POST("/create", controllers.UploadItem)
 	items.POST("/Category", controllers.GetItemsByCategory)
+
+	behavior := r.Group("/behavior")
+	behavior.POST("/view", controllers.InsertUserBehavior)
+
 	//api.Use(middlewares.AuthMiddleWare())
 	{
 		//todo
