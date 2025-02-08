@@ -39,7 +39,7 @@ const FeaturedSection = ({ title, products }) => {
       <Grid container spacing={2}>
         {products?.slice(0, 4).map((product, index) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
-            <ProductCard />
+            <ProductCard product = {product}/>
           </Grid>
         ))}
       </Grid>

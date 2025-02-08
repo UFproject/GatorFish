@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { styled } from '@mui/material/styles';
 import { Button, Box, Container } from '@mui/material';
 import Grid from '@mui/material/Grid2';
@@ -8,7 +7,24 @@ import CategoryMenu from "../../components/layout/CategoryMenu";
 import FeaturedSection from "../../components/layout/FeaturedSection";
 import { products } from "../../data/mockData";
 
+import { useState, useEffect } from "react";
+import axios from "axios"
+
 function Homepage() {
+  const [itemList, setItemList] = useState([])
+
+  useEffect(()=>{
+    async function getList() {
+      try {
+        const res = await axios.get('http://localhost:3004/item')
+        setItemList(res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getList()
+  }, [])
+
   return (
     <Box>
       <AppAppBar />
@@ -24,9 +40,9 @@ function Homepage() {
           ml: '280px' // Add margin to account for CategoryMenu width
         }}
       >
-        <FeaturedSection title="Fashion Refresh" products={products} />
-        <FeaturedSection title="Digital Devices" products={products} />
-        <FeaturedSection title="Sports Equipment" products={products} />
+        <FeaturedSection title="Fashion Refresh" products={itemList} />
+        <FeaturedSection title="Digital Devices" products={itemList} />
+        <FeaturedSection title="Sports Equipment" products={itemList} />
       </Container>
     </Box>
   );
