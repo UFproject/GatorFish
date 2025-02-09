@@ -1,17 +1,21 @@
 package controllers
 
 import (
+	"GatorFish/global"
+	"GatorFish/models"
 	"net/http"
+
 	"github.com/gin-gonic/gin"
-	"GatorFish/global"  
-	"GatorFish/models"   
 )
 
 func InsertUserBehavior(c *gin.Context) {
 	var behavior models.UserBehavior
-	
+
 	if err := c.ShouldBindJSON(&behavior); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if behavior.Username == "" {
 		return
 	}
 

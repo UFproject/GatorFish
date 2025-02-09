@@ -29,6 +29,7 @@ func SetupRouter() *gin.Engine {
 	items := r.Group("/items")
 	items.POST("/create", controllers.UploadItem)
 	items.POST("/Category", controllers.GetItemsByCategory)
+	items.POST("/recommend", controllers.RecommendItems)
 
 	behavior := r.Group("/behavior")
 	behavior.POST("/view", controllers.InsertUserBehavior)
