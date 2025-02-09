@@ -26,3 +26,8 @@
 #### Option 1:
 1. **User bids on items**: Backend stores bidding information.
 
+# What issues we planned to address
+
+# Which ones were successfully completed
+
+# Which ones didn't and why?
