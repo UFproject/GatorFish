@@ -4,6 +4,10 @@
 
 [link](https://drive.google.com/drive/folders/10zM5kLIs0df_ElJ2fc689G3-SYIXyB8U)
 
+### **frontend video**
+
+[link](https://drive.google.com/file/d/1BNDY3AhtEMG6OGNuU624KpdxZiDdEpgq/view?usp=drive_link)
+
 ### **User Stories**
 
 #### **Story 1**
@@ -48,6 +52,11 @@
 6. Implement bidding and auction features.
 7. Design admin panel for handling disputes.
 8. Optimize database queries for faster performance.
+9. Write the Navigation component.
+10. Write the Product Card component.
+11. Write the Login page.
+12. Add the router.
+13. Write the Product page.
 
 ------
 
@@ -55,6 +64,12 @@
 
 1. **User Authentication:** Implemented secure sign-in/up with session management via cookies.
 2. **Search Functionality:** Users can search for items with dynamic query filters.
+3. **Navigation component**
+4. **Product Card component**
+5. **Login page**
+6. **Add the router**
+7. **Product page**
+
 
 ------
 
