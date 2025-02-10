@@ -2,7 +2,7 @@
 
 ### **backend video**
 
-[link](https://drive.google.com/drive/folders/10zM5kLIs0df_ElJ2fc689G3-SYIXyB8U)
+[link](https://drive.google.com/file/d/1T1eDS2keNRfLgFjKPvxbwSnXmyEZCuWw/view?usp=sharing)
 
 ### **frontend video**
 
