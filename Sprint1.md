@@ -2,11 +2,11 @@
 
 ### **backend video**
 
-[link](https://drive.google.com/file/d/1T1eDS2keNRfLgFjKPvxbwSnXmyEZCuWw/view?usp=sharing)
+[link(by Pan and Liu)](https://drive.google.com/file/d/1T1eDS2keNRfLgFjKPvxbwSnXmyEZCuWw/view?usp=sharing)
 
 ### **frontend video**
 
-[link](https://drive.google.com/file/d/1BNDY3AhtEMG6OGNuU624KpdxZiDdEpgq/view?usp=drive_link)
+[link(by Wang and Chang)](https://drive.google.com/file/d/1BNDY3AhtEMG6OGNuU624KpdxZiDdEpgq/view?usp=drive_link)
 
 ### **User Stories**
 
