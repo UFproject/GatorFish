@@ -11,7 +11,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import imageUrl from '../../assets/images/ball.jpg';
 
 const ProductCard = ({ product }) => {
-  console.log(product)
+  //console.log(product)
 
   return (
     <Card sx={{

@@ -1,5 +1,5 @@
 {
-  "item" : [
+  "item": [
     {
       "id": 1,
       "title": "Basketball",
@@ -47,6 +47,14 @@
         "name": "Sarah Wilson",
         "avatar": "https://mui.com/static/images/avatar/4.jpg"
       }
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "user1",
+      "password": "123456",
+      "token": "fake-jwt-token-for-user1"
     }
   ]
 }

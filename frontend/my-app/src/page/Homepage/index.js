@@ -9,6 +9,7 @@ import { products } from "../../data/mockData";
 
 import { useState, useEffect } from "react";
 import axios from "axios"
+import { request } from '../../utils/request';
 
 function Homepage() {
   const [itemList, setItemList] = useState([])
@@ -16,13 +17,22 @@ function Homepage() {
   useEffect(()=>{
     async function getList() {
       try {
-        const res = await axios.get('http://localhost:3004/item')
-        setItemList(res.data)
+        const res = await request.get('/item')
+        setItemList(res)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    async function test() {
+      try {
+        const res = await request.post('/login', {"username": "user1", "password": "123456"})
+        //console.log(res)
       } catch (error) {
         console.error(error)
       }
     }
     getList()
+    test()
   }, [])
 
   return (
