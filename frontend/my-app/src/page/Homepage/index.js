@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Button, Box, Container } from '@mui/material';
+import { Button, Box, Container, Snackbar} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
 import AppAppBar from "../../components/layout/AppAppBar";
@@ -8,25 +8,32 @@ import FeaturedSection from "../../components/layout/FeaturedSection";
 import { products } from "../../data/mockData";
 
 import { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 import axios from "axios"
 import { request } from '../../utils/request';
 
 function Homepage() {
   const [itemList, setItemList] = useState([])
+  const location = useLocation();
+  const [openSnackbar, setOpenSnackbar] = useState(false)
 
   useEffect(()=>{
     async function getList() {
       try {
-        const res = await request.get('/item')
-        setItemList(res)
+        const res = await request.post('/items/Category', {
+          "category_name": "Electronics",
+          "start": 0,
+          "end": 10
+        })
+        setItemList(res.items)
       } catch (error) {
         console.error(error)
       }
     }
     async function test() {
       try {
-        const res = await request.post('/login', {"username": "user1", "password": "123456"})
-        //console.log(res)
+        const res = await request.post('/auth/login', {"Username": "test", "Password": "114514"})
+        console.log(res)
       } catch (error) {
         console.error(error)
       }
@@ -35,8 +42,26 @@ function Homepage() {
     test()
   }, [])
 
+  useEffect(() => {
+    if (location.state?.fromLogin) {
+      setOpenSnackbar(true);
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
+
+  const handleClose = () => {
+    setOpenSnackbar(false);
+  };
+
   return (
     <Box>
+       <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message="Login Successful!"
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      />
       <AppAppBar />
       <CategoryMenu />
       <Container

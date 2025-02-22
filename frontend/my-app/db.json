@@ -52,8 +52,8 @@
   "users": [
     {
       "id": 1,
-      "username": "user1",
-      "password": "123456",
+      "Username": "test",
+      "Password": "114514",
       "token": "fake-jwt-token-for-user1"
     }
   ]

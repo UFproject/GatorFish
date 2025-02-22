@@ -8,23 +8,25 @@ import { useLocation } from 'react-router-dom';
 import imageUrl from '../../assets/images/ball.jpg';
 
 function Product() {
-  const [product, setProduct] = useState(null);
   const location = useLocation();
+  const [product, setProduct] = useState(location.state?.product || null);
   const productId = new URLSearchParams(location.search).get('id');
+  // console.log(location)
 
-  useEffect(() => {
-    async function getProduct() {
-      try {
-        const res = await axios.get(`http://localhost:3004/item/${productId}`);
-        setProduct(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    if (productId) {
-      getProduct();
-    }
-  }, [productId]);
+  // useEffect(() => {
+  //   async function getProduct() {
+  //     try {
+  //       // const res = await axios.get(`http://localhost:3004/item/${productId}`);
+  //       const res = await axios.get(`http://localhost:3004/item/1`);
+  //       setProduct(res.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   if (productId) {
+  //     getProduct();
+  //   }
+  // }, [productId]);
 
   if (!product) {
     return <div>Loading...</div>;
@@ -46,7 +48,7 @@ function Product() {
             <Box
               component="img"
               src={imageUrl}
-              alt={product.title}
+              alt={product.Title}
               sx={{
                 width: '100%',
                 height: 'auto',
@@ -60,22 +62,22 @@ function Product() {
           <Grid item xs={12} md={4}>
             <Box sx={{ position: 'sticky', top: 100 }}>
               <Typography variant="h4" component="h1" gutterBottom>
-                {product.title}
+                {product.Title}
               </Typography>
 
               <Typography variant="h3" sx={{ color: '#FA4616', fontWeight: 'bold', my: 3 }}>
-                ${product.price}
+                ${product.Price}
               </Typography>
 
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                 <LocationOnIcon sx={{ color: 'text.secondary' }} />
                 <Typography color="text.secondary">
-                  {product.location}
+                  Gainesville
                 </Typography>
                 <Box sx={{ flex: 1 }} />
                 <VisibilityIcon sx={{ color: 'text.secondary' }} />
                 <Typography color="text.secondary">
-                  {product.views} views
+                  100 views
                 </Typography>
               </Box>
 
@@ -90,12 +92,12 @@ function Product() {
                 mb: 3
               }}>
                 <Avatar
-                  src={product.seller.avatar}
+                  src={"https://mui.com/static/images/avatar/4.jpg"}
                   sx={{ width: 56, height: 56 }}
                 />
                 <Box>
                   <Typography variant="h6">
-                    {product.seller.name}
+                    {product.Seller_name}
                   </Typography>
                   <Typography color="text.secondary">
                     Seller

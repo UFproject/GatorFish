@@ -1,6 +1,6 @@
 module.exports = (req, res, next) => {
   // 拦截登录请求
-  if (req.method === 'POST' && req.url === '/login') {
+  if (req.method === 'POST' && req.url === '/auth/login') {
     const { username, password } = req.body;
 
     // 模拟数据库查询（实际应从 db.json 读取）

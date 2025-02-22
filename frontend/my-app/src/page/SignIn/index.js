@@ -68,8 +68,9 @@ function SignIn() {
       username: data.get('username'),
       password: data.get('password'),
     });
-    await dispatch(fetchLogin({"username": data.get('username'), "password": data.get('password')}));
-    navigate('/')
+    await dispatch(fetchLogin({"Username": data.get('username'), "Password": data.get('password')}));
+    navigate('/', {state: { fromLogin: true }})
+    
   };
 
   return (

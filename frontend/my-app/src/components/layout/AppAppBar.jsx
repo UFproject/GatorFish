@@ -11,6 +11,8 @@ import SearchIcon from '@mui/icons-material/Search'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
+import Avatar from '@mui/material/Avatar';
+import { Link } from 'react-router-dom';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -39,12 +41,14 @@ const SearchBar = styled(TextField)(({ theme }) => ({
 }));
 
 const AppAppBar = () => {
+  const token = localStorage.getItem('token_key')
+
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#0021A5', boxShadow: 1 }}>
       <Container maxWidth="lg">
         <StyledToolbar>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#FA4616' }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#FA4616' }} component={Link} to={'/'} style={{ textDecoration: 'none' }}>
               GATOR FISH MARKET
             </Typography>
           </Box>
@@ -63,7 +67,7 @@ const AppAppBar = () => {
           />
           
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Button 
+            {!token && <Button 
               sx={{ 
                 color: 'white',
                 '&:hover': {
@@ -73,7 +77,11 @@ const AppAppBar = () => {
               href='/login'
             >
               Sign In
-            </Button>
+            </Button>}
+            {token && <Avatar
+                  src={"https://mui.com/static/images/avatar/1.jpg"}
+                  sx={{ width: 56, height: 56 }}
+                />}
             <IconButton 
               sx={{ 
                 color: 'white',
