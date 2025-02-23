@@ -70,7 +70,7 @@ func UploadItem(ctx *gin.Context) {
 			return
 		}
 
-		item.Pic = uploadPath
+		item.Pic = uploadPath[1:]
 	} else {
 		item.Pic = ""
 	}
@@ -126,5 +126,35 @@ func GetItemsByCategory(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"category_name": requestBody.CategoryName,
 		"items":         items,
+	})
+}
+
+func GetItemByID(ctx *gin.Context) {
+	type RequestBody struct {
+		ItemID int `json:"item_id"`
+	}
+
+	var requestBody RequestBody
+
+	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON payload"})
+		return
+	}
+
+	if requestBody.ItemID <= 0 {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Valid item_id is required"})
+		return
+	}
+
+	var item models.Item
+	if err := global.Db.Table("items").
+		Where("item_id = ?", requestBody.ItemID).
+		First(&item).Error; err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "Item not found"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"item": item,
 	})
 }

@@ -73,3 +73,43 @@ func Login(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
+
+func Profile(ctx *gin.Context) {
+	type RequestBody struct {
+		Username string `json:"username"`
+	}
+
+	var requestBody RequestBody
+
+	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON payload"})
+		return
+	}
+
+	if requestBody.Username == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "username is required"})
+		return
+	}
+
+	var items []models.Item
+	if err := global.Db.Table("items").
+		Where("seller_name = ?", requestBody.Username).
+		Find(&items).Error; err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var likedItemIDs []int
+	if err := global.Db.Table("like").
+		Where("username = ?", requestBody.Username).
+		Pluck("item_id", &likedItemIDs).Error; err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"username":       requestBody.Username,
+		"items":          items,
+		"liked_item_ids": likedItemIDs,
+	})
+}
