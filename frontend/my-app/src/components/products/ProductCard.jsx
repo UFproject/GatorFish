@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
   // console.log(product)
+  const BASE_URL = process.env.REACT_APP_BASE_URL
 
   return (
     <Card sx={{
@@ -27,7 +28,7 @@ const ProductCard = ({ product }) => {
         <CardMedia
           component="img"
           height="200"
-          image={"http://35.172.221.61:8080" + product.Pic.slice(1)}
+          image={`${BASE_URL}${product.Pic}`}
           alt={product.Title}
         />
         <CardContent>

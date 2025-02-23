@@ -11,6 +11,7 @@ function Product() {
   const location = useLocation();
   const [product, setProduct] = useState(location.state?.product || null);
   const productId = new URLSearchParams(location.search).get('id');
+  const BASE_URL = process.env.REACT_APP_BASE_URL
   // console.log(location)
 
   // useEffect(() => {
@@ -47,7 +48,7 @@ function Product() {
           <Grid item xs={12} md={8}>
             <Box
               component="img"
-              src={imageUrl}
+              src={`${BASE_URL}${product.Pic}`}
               alt={product.Title}
               sx={{
                 width: '100%',

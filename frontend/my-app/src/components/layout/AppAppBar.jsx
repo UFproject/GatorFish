@@ -13,6 +13,15 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar';
 import { Link } from 'react-router-dom';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Upload from '@mui/icons-material/Upload';
+import Logout from '@mui/icons-material/Logout';
+import { useDispatch } from 'react-redux'
+import { clearUserInfo } from '../../store/modules/user'
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -42,6 +51,21 @@ const SearchBar = styled(TextField)(({ theme }) => ({
 
 const AppAppBar = () => {
   const token = localStorage.getItem('token_key')
+  const dispatch = useDispatch()
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    dispatch(clearUserInfo())
+    setAnchorEl(null)
+  };
 
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#0021A5', boxShadow: 1 }}>
@@ -78,10 +102,43 @@ const AppAppBar = () => {
             >
               Sign In
             </Button>}
-            {token && <Avatar
-                  src={"https://mui.com/static/images/avatar/1.jpg"}
-                  sx={{ width: 56, height: 56 }}
-                />}
+            {token && 
+            <Avatar
+              src={"https://mui.com/static/images/avatar/1.jpg"}
+              sx={{ width: 56, height: 56 }}
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+            />}
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <AccountCircle />
+                </ListItemIcon>
+                <ListItemText>Profile</ListItemText>
+              </MenuItem>
+              <MenuItem component={Link} to="/uploadItem" onClick={handleClose}>
+                <ListItemIcon>
+                  <Upload />
+                </ListItemIcon>
+                <ListItemText>Selling</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleLogout}>
+                <ListItemIcon>
+                  <Logout />
+                </ListItemIcon>
+                <ListItemText>Logout</ListItemText>
+              </MenuItem>
+            </Menu>
             <IconButton 
               sx={{ 
                 color: 'white',

@@ -14,7 +14,7 @@ import { request } from '../../utils/request';
 
 function Homepage() {
   const [itemList, setItemList] = useState([])
-  const location = useLocation();
+  const location = useLocation()
   const [openSnackbar, setOpenSnackbar] = useState(false)
 
   useEffect(()=>{
@@ -30,28 +30,28 @@ function Homepage() {
         console.error(error)
       }
     }
-    async function test() {
-      try {
-        const res = await request.post('/auth/login', {"Username": "test", "Password": "114514"})
-        console.log(res)
-      } catch (error) {
-        console.error(error)
-      }
-    }
+    // async function test() {
+    //   try {
+    //     const res = await request.post('/auth/login', {"Username": "test", "Password": "114514"})
+    //     console.log(res)
+    //   } catch (error) {
+    //     console.error(error)
+    //   }
+    // }
     getList()
-    test()
+    // test()
   }, [])
 
   useEffect(() => {
     if (location.state?.fromLogin) {
-      setOpenSnackbar(true);
-      window.history.replaceState({}, document.title);
+      setOpenSnackbar(true)
+      window.history.replaceState({}, document.title)
     }
-  }, [location.state]);
+  }, [location.state])
 
   const handleClose = () => {
     setOpenSnackbar(false);
-  };
+  }
 
   return (
     <Box>

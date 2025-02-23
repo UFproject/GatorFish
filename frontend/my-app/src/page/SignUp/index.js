@@ -9,13 +9,12 @@ import FormLabel from '@mui/material/FormLabel'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 import AppBar from '@mui/material/AppBar'
-import { request } from '../../utils/request'
 import { useDispatch } from 'react-redux'
-import { fetchLogin } from '../../store/modules/user'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom'
+import { useState} from "react"
 import Snackbar from '@mui/material/Snackbar'
 import Link from '@mui/material/Link'
+import { request } from '../../utils/request'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -60,10 +59,9 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 
-function SignIn() {
+function SignUp() {
   const [openSnackbar, setOpenSnackbar] = useState(false)
-  const location = useLocation()
-  const [errorMessage, setErrorMessage] = useState('')
+  const [alertMessage, setAlertMessage] = useState('')
 
 
   const dispatch = useDispatch()
@@ -76,22 +74,14 @@ function SignIn() {
       password: data.get('password'),
     });
     try {
-      await dispatch(fetchLogin({"Username": data.get('username'), "Password": data.get('password')}));
-      navigate('/', {state: { fromLogin: true }})
+      const res = await request.post('/auth/register', {"Username": data.get('username'), "Password": data.get('password')})
+      navigate('/login', {state: { fromRegister: true }})
     } catch (error) {
-      setErrorMessage(error.response.data.error)
+      setAlertMessage(error.response.data.error)
       setOpenSnackbar(true)
     }
   }
-
-  useEffect(() => {
-    if (location.state?.fromRegister) {
-      setErrorMessage('Successful registration!')
-      setOpenSnackbar(true)
-      window.history.replaceState({}, document.title)
-    }
-  }, [location.state])
-
+  
   const handleClose = () => {
     setOpenSnackbar(false)
   }
@@ -102,7 +92,7 @@ function SignIn() {
         open={openSnackbar}
         autoHideDuration={3000}
         onClose={handleClose}
-        message={errorMessage}
+        message={alertMessage}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       />
       <AppBar position="fixed" sx={{ backgroundColor: '#0021A5', boxShadow: 1, padding: '19px 12px',}}>
@@ -122,7 +112,7 @@ function SignIn() {
             variant="h4"
             sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)', paddingBottom: 2 }}
           >
-            Sign in
+            Sign up
           </Typography>
           <Box
               component="form"
@@ -168,16 +158,16 @@ function SignIn() {
                 variant="contained"
                 sx={{ backgroundColor: '#0021A5'}}
               >
-                Sign in
+                Sign up
               </Button>
               <Typography sx={{ textAlign: 'center' }}>
-                Don't have an account?{' '}
+                Already have an account?{' '}
                 <Link
-                  href="/register"
+                  href="/login"
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >
-                  Sign up
+                  Sign in
                 </Link>
               </Typography>
               
@@ -185,9 +175,7 @@ function SignIn() {
         </Card>
       </SignInContainer>
     </Box>
-    
-    
   )
 }
 
-export default SignIn
+export default SignUp

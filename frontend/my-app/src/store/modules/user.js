@@ -12,11 +12,15 @@ const userStore = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
       localStorage.setItem('token_key', action.payload)
+    },
+    clearUserInfo (state) {
+      state.token = ''
+      localStorage.removeItem('token_key')
     }
   },
 });
 
-const { setToken } = userStore.actions
+const { setToken, clearUserInfo } = userStore.actions
 const userReducer = userStore.reducer
 
 const fetchLogin = (loginForm) => {
@@ -27,5 +31,5 @@ const fetchLogin = (loginForm) => {
   }
 }
 
-export { fetchLogin, setToken }
+export { fetchLogin, setToken, clearUserInfo}
 export default userReducer;
