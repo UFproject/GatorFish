@@ -69,12 +69,14 @@ function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-    });
+    const form = {
+      "Username": data.get('username'),
+      "Password": data.get('password'),
+      "Phone": data.get('phone'),
+      "Email": data.get('email')
+    }
     try {
-      const res = await request.post('/auth/register', {"Username": data.get('username'), "Password": data.get('password')})
+      const res = await request.post('/auth/register', form)
       navigate('/login', {state: { fromRegister: true }})
     } catch (error) {
       setAlertMessage(error.response.data.error)
@@ -126,7 +128,7 @@ function SignUp() {
               }}
             >
               <FormControl>
-                <FormLabel htmlFor="email">Username</FormLabel>
+                <FormLabel htmlFor="username">Username</FormLabel>
                 <TextField
                   id="username"
                   type="username"
@@ -146,6 +148,32 @@ function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  autoFocus
+                  required
+                  fullWidth
+                  variant="outlined"
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="phone">Phone Number</FormLabel>
+                <TextField
+                  id="phone"
+                  type="phone"
+                  name="phone"
+                  placeholder="phone number"
+                  autoFocus
+                  required
+                  fullWidth
+                  variant="outlined"
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <TextField
+                  name="email"
+                  placeholder="email"
+                  type="email"
+                  id="email"
                   autoFocus
                   required
                   fullWidth

@@ -71,12 +71,12 @@ function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-    });
+    const form = {
+      "Username": data.get('username'),
+      "Password": data.get('password')
+    }
     try {
-      await dispatch(fetchLogin({"Username": data.get('username'), "Password": data.get('password')}));
+      await dispatch(fetchLogin(form));
       navigate('/', {state: { fromLogin: true }})
     } catch (error) {
       setErrorMessage(error.response.data.error)
