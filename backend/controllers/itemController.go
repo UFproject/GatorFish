@@ -3,6 +3,7 @@ package controllers
 import (
 	"GatorFish/global"
 	"GatorFish/models"
+	"GatorFish/utils"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -13,14 +14,13 @@ import (
 
 func UploadItem(ctx *gin.Context) {
 	var item models.Item
-
 	// Parse multipart form data
 	if err := ctx.Request.ParseMultipartForm(10 << 20); err != nil { // 10MB limit
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Failed to parse form data"})
 		return
 	}
 
-	item.Seller_name = ctx.PostForm("seller_name")
+	item.Seller_name, _ = utils.ParseJWT(ctx.PostForm("seller_jwt"))
 	item.Category_name = ctx.PostForm("category_name")
 	item.Title = ctx.PostForm("title")
 	item.Description = ctx.PostForm("description")
