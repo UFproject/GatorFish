@@ -4,28 +4,34 @@ import (
 	"math"
 	"net/http"
 	"sort"
+	"strconv"
 
 	"GatorFish/global"
 	"GatorFish/models"
+	"GatorFish/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
-type RecommendRequest struct {
-	Username      string `json:"username"`
-	ProductNumber int    `json:"product_number" binding:"required"`
-}
-
 func RecommendItems(c *gin.Context) {
 
-	var req RecommendRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request body", "details": err.Error()})
+	if err := c.Request.ParseMultipartForm(10 << 20); err != nil { // 10MB limit
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to parse form data", "details": err.Error()})
 		return
 	}
 
-	username := req.Username
-	productNumber := int(math.Max(float64(req.ProductNumber), 5.0))
+	username, err := utils.ParseJWT(c.PostForm("user_jwt"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to parse username"})
+		return
+	}
+
+	pn, err := strconv.ParseFloat(c.PostForm("product_number"), 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product number format"})
+		return
+	}
+	productNumber := int(math.Max(pn, 5.0))
 
 	var recommendedItems []models.Item
 
