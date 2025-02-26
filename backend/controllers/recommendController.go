@@ -72,7 +72,11 @@ func RecommendItems(c *gin.Context) {
 			for i := 1; i < len(categoryOrder) && i < 5; i++ {
 				categoryName := categoryOrder[i]
 				recommendedCount := int(math.Max(math.Floor(float64(productNumber)*float64(categoryMap[categoryName])/float64(countedBehavior)), 1))
-
+				//fmt.Print(i)
+				//fmt.Print(": ")
+				//fmt.Print(categoryName)
+				//fmt.Print(" ")
+				//fmt.Println(recommendedCount)
 				var categoryItems []models.Item
 				if err := global.Db.Where("category_name = ? AND status = ?", categoryName, "active").
 					Limit(recommendedCount).
@@ -81,6 +85,10 @@ func RecommendItems(c *gin.Context) {
 				}
 			}
 			recommendedCount := productNumber - len(recommendedItems)
+			//fmt.Print("final: ")
+			//fmt.Print(categoryOrder[0])
+			//fmt.Print(" ")
+			//fmt.Println(recommendedCount)
 			var categoryItems []models.Item
 			if err := global.Db.Where("category_name = ? AND status = ?", categoryOrder[0], "active").
 				Limit(recommendedCount).
@@ -91,14 +99,15 @@ func RecommendItems(c *gin.Context) {
 		}
 	}
 
+	var leftItems []models.Item
 	//random recommnd for not logged in user
-	if len(recommendedItems) == 0 {
+	if len(recommendedItems) < productNumber {
+		productNumber -= len(recommendedItems)
 		if err := global.Db.Where("status = ?", "active").
 			Order("RAND()").
 			Limit(productNumber).
-			Find(&recommendedItems).Error; err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch random items"})
-			return
+			Find(&leftItems).Error; err == nil {
+			recommendedItems = append(recommendedItems, leftItems...)
 		}
 	}
 
