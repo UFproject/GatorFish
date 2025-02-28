@@ -1,0 +1,1303 @@
+{
+	"info": {
+		"_postman_id": "326fb75a-f502-4e5a-a646-27198351f672",
+		"name": "GF",
+		"description": "APIs for Gator Fish",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41728385",
+		"_collection_link": "https://gf3333.postman.co/workspace/ac5291c0-2092-42a6-8848-230a09c1e67a/collection/41532798-326fb75a-f502-4e5a-a646-27198351f672?action=share&source=collection_link&creator=41728385"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"Username\"  :\"Annie\",\n\t\t\"Password\"  :\"abcdef\",\n\t\t\"Phone\"    :\"136\",\n\t\t\"Email\"    :\"Annie@ufl.edu\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:8080/auth/register",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"register"
+					]
+				},
+				"description": "User register\n\n| variable name | necessity |\n| --- | --- |\n| Username | Yes |\n| Password | Yes |\n| Phone | Yes |\n| Email | Yes |"
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"Username\"  :\"Annie\",\n\t\t\"Password\"  :\"abcdef\",\n\t\t\"Phone\"    :\"136\",\n\t\t\"Email\"    :\"Annie@ufl.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 27 Feb 2025 22:57:55 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "150"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA5NTYyNzUsInVzZXJuYW1lIjoiQW5uaWUifQ.FKSPAdeExePBHqIzTk_vpfTVlMUu7BWbP9SYERg11TI\"\n}"
+				},
+				{
+					"name": "400 Duplicate Register",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"Username\"  :\"Annie\",\n\t\t\"Password\"  :\"abcdef\",\n\t\t\"Phone\"    :\"136\",\n\t\t\"Email\"    :\"Annie@ufl.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ip}}:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 20:15:33 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "79"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Error 1062 (23000): Duplicate entry 'Annie' for key 'users.PRIMARY'\"\n}"
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"Username\"  :\"Anna\",\n\t\t\"Password\"  :\"114514\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:8080/auth/login",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "User login\n\n| variable name | necessity |\n| --- | --- |\n| Username | Yes |\n| Password | Yes |"
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"Username\"  :\"Annie\",\n\t\t\"Password\"  :\"abcdef\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 20:21:49 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "150"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwMzMzMDksInVzZXJuYW1lIjoiQW5uaWUifQ.6qNBY3lXd2OINwskSE58sqSjWxQT1yNZ2M3sHMTKAGA\"\n}"
+				},
+				{
+					"name": "401 Wrong Username",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"Username\"  :\"Cathy\",\n\t\t\"Password\"  :\"114514\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ip}}:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 20:20:26 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "26"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"wrong username\"\n}"
+				},
+				{
+					"name": "401 Wrong Password",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"Username\"  :\"Annie\",\n\t\t\"Password\"  :\"114514\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ip}}:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 20:21:07 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"wrong credentials\"\n}"
+				}
+			]
+		},
+		{
+			"name": "uploadItem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "seller_jwt",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA2MDU1MjMsInVzZXJuYW1lIjoiMTIifQ.RuZPNPejlIC_FVAfYvoYeLvSegVqxPqKgcesLurzX2g",
+							"type": "text"
+						},
+						{
+							"key": "category_name",
+							"value": "Electronics",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Smartphone_1",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Latest model with 128GB",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "12",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/siyuan/Desktop/Screenshot_20250223_165652.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{ip}}:8080/items/create",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "8080",
+					"path": [
+						"items",
+						"create"
+					]
+				},
+				"description": "Upload user's items for sale\n\n| variable name | necessity |\n| --- | --- |\n| seller_jwt | Yes |\n| category_name | Yes |\n| title | Yes |\n| description | Yes |\n| price | Yes |\n| file | Yes |"
+			},
+			"response": [
+				{
+					"name": "201 Created Item",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "seller_jwt",
+									"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA2MDU1MjMsInVzZXJuYW1lIjoiMTIifQ.RuZPNPejlIC_FVAfYvoYeLvSegVqxPqKgcesLurzX2g",
+									"type": "text"
+								},
+								{
+									"key": "category_name",
+									"value": "Electronics",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Smartphone_2",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Latest model with 128GB",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/siyuan/Desktop/Screenshot_20250223_165652.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/items/create",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"create"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 20:26:15 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "259"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"item\": {\n        \"Item_id\": 0,\n        \"Seller_name\": \"\",\n        \"Category_name\": \"Electronics\",\n        \"Title\": \"Smartphone_2\",\n        \"Description\": \"Latest model with 128GB\",\n        \"Price\": 12,\n        \"Posted_date\": \"2025-02-28T15:26:15.3862047-05:00\",\n        \"Status\": \"active\",\n        \"Pic\": \"\"\n    },\n    \"message\": \"Item uploaded successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "user behavior record",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_jwt",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA4NjcxOTUsInVzZXJuYW1lIjoiQW5uYSJ9.lDA2mTZeffs7PJUGRT-tCwucctyyk_AM0cFruXMFnC8",
+							"type": "text"
+						},
+						{
+							"key": "item_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "behavior_type",
+							"value": "view",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{ip}}:8080/behavior/view",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "8080",
+					"path": [
+						"behavior",
+						"view"
+					]
+				},
+				"description": "Record user viewing, liking and buying behavior\n\n| variable name | necessity |\n| --- | --- |\n| user_jwt | Yes |\n| item_id | Yes |\n| behavior_type | Yes |"
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_jwt",
+									"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA4NjcxOTUsInVzZXJuYW1lIjoiQW5uYSJ9.lDA2mTZeffs7PJUGRT-tCwucctyyk_AM0cFruXMFnC8",
+									"type": "text"
+								},
+								{
+									"key": "item_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "behavior_type",
+									"value": "view",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/behavior/view",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"behavior",
+								"view"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 20:57:13 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "49"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"User behavior recorded successfully\"\n}"
+				},
+				{
+					"name": "400 No username",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_jwt",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "item_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "behavior_type",
+									"value": "view",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{ip}}:8080/behavior/view",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"behavior",
+								"view"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 20:57:31 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "23"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"No username\"\n}"
+				},
+				{
+					"name": "400 Invalid item id",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_jwt",
+									"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA4NjcxOTUsInVzZXJuYW1lIjoiQW5uYSJ9.lDA2mTZeffs7PJUGRT-tCwucctyyk_AM0cFruXMFnC8",
+									"type": "text"
+								},
+								{
+									"key": "item_id",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "behavior_type",
+									"value": "view",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://{{ip}}:8080/behavior/view",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"behavior",
+								"view"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 20:58:00 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "27"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Invalid item id\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get recommend items",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_jwt",
+							"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA4NjcxOTUsInVzZXJuYW1lIjoiQW5uYSJ9.lDA2mTZeffs7PJUGRT-tCwucctyyk_AM0cFruXMFnC8",
+							"type": "text"
+						},
+						{
+							"key": "product_number",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{ip}}:8080/items/recommend",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "8080",
+					"path": [
+						"items",
+						"recommend"
+					]
+				},
+				"description": "Get recommendations\n\n| variable name | necessity |\n| --- | --- |\n| user_jwt | No |\n| product_number | No |"
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_jwt",
+									"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA4NjcxOTUsInVzZXJuYW1lIjoiQW5uYSJ9.lDA2mTZeffs7PJUGRT-tCwucctyyk_AM0cFruXMFnC8",
+									"type": "text"
+								},
+								{
+									"key": "product_number",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/items/recommend",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"recommend"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 21:02:03 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1075"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"recommended_items\": [\n        {\n            \"Item_id\": 42,\n            \"Seller_name\": \"12\",\n            \"Category_name\": \"Electronics\",\n            \"Title\": \"Smartphone_1\",\n            \"Description\": \"Latest model with 128GB\",\n            \"Price\": 12,\n            \"Posted_date\": \"2025-02-23T16:55:51-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"\"\n        },\n        {\n            \"Item_id\": 1,\n            \"Seller_name\": \"Anna\",\n            \"Category_name\": \"Pets\",\n            \"Title\": \"Long Horn Cattle\",\n            \"Description\": \"Texas long horn cattle\",\n            \"Price\": 2000,\n            \"Posted_date\": \"2025-02-24T16:57:58-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"/uploads/animals01.jpg\"\n        },\n        {\n            \"Item_id\": 2,\n            \"Seller_name\": \"Anna\",\n            \"Category_name\": \"Pets\",\n            \"Title\": \"Black Cat\",\n            \"Description\": \"cat adoption\",\n            \"Price\": 100,\n            \"Posted_date\": \"2025-02-24T16:58:58-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"/uploads/animals02.jpg\"\n        },\n        {\n            \"Item_id\": 3,\n            \"Seller_name\": \"Anna\",\n            \"Category_name\": \"Pets\",\n            \"Title\": \"Owl\",\n            \"Description\": \"birds\",\n            \"Price\": 500,\n            \"Posted_date\": \"2025-02-25T16:58:58-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"/uploads/animals03.jpg\"\n        },\n        {\n            \"Item_id\": 4,\n            \"Seller_name\": \"Anna\",\n            \"Category_name\": \"Pets\",\n            \"Title\": \"Tebby Cat\",\n            \"Description\": \"cat adoption\",\n            \"Price\": 150,\n            \"Posted_date\": \"2025-02-25T16:59:58-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"/uploads/animals04.jpg\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "400 Username Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_jwt",
+									"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA2MDU1MjMsInVzZXJuYW1lIjoiMTIifQ.RuZPNPejlIC_FVAfYvoYeLvSegVqxPqKgcesLurzX2a",
+									"type": "text"
+								},
+								{
+									"key": "product_number",
+									"value": "6",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/items/recommend",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"recommend"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 21:01:31 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "36"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Failed to parse username\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"category_name\": \"Electronics\",\n  \"start\": 0,\n  \"end\": 10\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:8080/items/Category",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "8080",
+					"path": [
+						"items",
+						"Category"
+					]
+				},
+				"description": "Get items by category\n\n| variable name | necessity |\n| --- | --- |\n| category_name | Yes |\n| start | Yes |\n| end | Yes |"
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"category_name\": \"Electronics\",\n  \"start\": 0,\n  \"end\": 10\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/items/Category",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"Category"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 21:31:20 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "927"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"category_name\": \"Electronics\",\n    \"items\": [\n        {\n            \"Item_id\": 42,\n            \"Seller_name\": \"12\",\n            \"Category_name\": \"Electronics\",\n            \"Title\": \"Smartphone_1\",\n            \"Description\": \"Latest model with 128GB\",\n            \"Price\": 12,\n            \"Posted_date\": \"2025-02-23T16:55:51-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"\"\n        },\n        {\n            \"Item_id\": 43,\n            \"Seller_name\": \"12\",\n            \"Category_name\": \"Electronics\",\n            \"Title\": \"Smartphone_1\",\n            \"Description\": \"Latest model with 128GB\",\n            \"Price\": 12,\n            \"Posted_date\": \"2025-02-23T16:58:58-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"/uploads/1740347938375260479_Screenshot_20250223_165652.png\"\n        },\n        {\n            \"Item_id\": 44,\n            \"Seller_name\": \"\",\n            \"Category_name\": \"Electronics\",\n            \"Title\": \"Smartphone_2\",\n            \"Description\": \"Latest model with 128GB\",\n            \"Price\": 12,\n            \"Posted_date\": \"2025-02-28T15:26:15-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"\"\n        },\n        {\n            \"Item_id\": 45,\n            \"Seller_name\": \"\",\n            \"Category_name\": \"Electronics\",\n            \"Title\": \"Smartphone_2\",\n            \"Description\": \"Latest model with 128GB\",\n            \"Price\": 12.12,\n            \"Posted_date\": \"2025-02-28T15:26:42-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "400 No Category Name",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"category_name\": \"\",\n  \"start\": 0,\n  \"end\": 10\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ip}}:8080/items/Category",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"Category"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 21:32:37 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "37"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"category_name is required\"\n}"
+				},
+				{
+					"name": "400 Invalid start or end values",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"category_name\": \"Electronics\",\n  \"start\": 11,\n  \"end\": 10\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ip}}:8080/items/Category",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"Category"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 21:33:12 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "39"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Invalid start or end values\"\n}"
+				}
+			]
+		},
+		{
+			"name": "profile",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"12\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:8080/auth/profile",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"profile"
+					]
+				},
+				"description": "Get user liked items\n\n| variable name | necessity |\n| --- | --- |\n| username | Yes |"
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/auth/profile",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 21:34:36 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "522"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"items\": [\n        {\n            \"Item_id\": 42,\n            \"Seller_name\": \"12\",\n            \"Category_name\": \"Electronics\",\n            \"Title\": \"Smartphone_1\",\n            \"Description\": \"Latest model with 128GB\",\n            \"Price\": 12,\n            \"Posted_date\": \"2025-02-23T16:55:51-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"\"\n        },\n        {\n            \"Item_id\": 43,\n            \"Seller_name\": \"12\",\n            \"Category_name\": \"Electronics\",\n            \"Title\": \"Smartphone_1\",\n            \"Description\": \"Latest model with 128GB\",\n            \"Price\": 12,\n            \"Posted_date\": \"2025-02-23T16:58:58-05:00\",\n            \"Status\": \"active\",\n            \"Pic\": \"/uploads/1740347938375260479_Screenshot_20250223_165652.png\"\n        }\n    ],\n    \"liked_item_ids\": [\n        12\n    ],\n    \"username\": \"12\"\n}"
+				},
+				{
+					"name": "400 No username",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ip}}:8080/auth/profile",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 21:34:51 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "32"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"username is required\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get item by ID",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"item_id\": 123\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:8080/items/id",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "8080",
+					"path": [
+						"items",
+						"id"
+					]
+				},
+				"description": "Get item by id\n\n| variable name | necessity |\n| --- | --- |\n| item_id | Yes |"
+			},
+			"response": [
+				{
+					"name": "200 OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"item_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ip}}:8080/items/id",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"id"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 21:36:25 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "236"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"item\": {\n        \"Item_id\": 1,\n        \"Seller_name\": \"Anna\",\n        \"Category_name\": \"Pets\",\n        \"Title\": \"Long Horn Cattle\",\n        \"Description\": \"Texas long horn cattle\",\n        \"Price\": 2000,\n        \"Posted_date\": \"2025-02-24T16:57:58-05:00\",\n        \"Status\": \"active\",\n        \"Pic\": \"/uploads/animals01.jpg\"\n    }\n}"
+				},
+				{
+					"name": "400 Invalid JSON payload",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"item_id\": \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/items/id",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"id"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 21:35:32 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "32"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Invalid JSON payload\"\n}"
+				},
+				{
+					"name": "404 Item not found",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"item_id\": 123\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{ip}}:8080/items/id",
+							"protocol": "http",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "8080",
+							"path": [
+								"items",
+								"id"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 28 Feb 2025 21:36:04 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "26"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Item not found\"\n}"
+				}
+			]
+		}
+	]
+}
