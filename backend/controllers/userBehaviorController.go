@@ -29,6 +29,9 @@ func InsertUserBehavior(c *gin.Context) {
 	}
 	behavior.ItemID = int(itemId)
 	behavior.BehaviorType = c.PostForm("behavior_type")
+	if behavior.BehaviorType == "" {
+		behavior.BehaviorType = "unknown"
+	}
 
 	if err := global.Db.Create(&behavior).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
