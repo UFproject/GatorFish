@@ -19,18 +19,22 @@ func RecommendItems(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to parse form data", "details": err.Error()})
 		return
 	}
-
-	username, err := utils.ParseJWT(c.PostForm("user_jwt"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to parse username"})
-		return
-	}
-	tmp := c.PostForm("product_number")
-	productNumber := 5
-	if tmp != "" {
-		pn, err := strconv.ParseFloat(tmp, 64)
+	tmp1 := c.PostForm("user_jwt")
+	username := ""
+	if tmp1 != "" {
+		un, err := utils.ParseJWT(tmp1)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product number format"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Failed to parse username"})
+			return
+		}
+		username = un
+	}
+	tmp2 := c.PostForm("product_number")
+	productNumber := 5
+	if tmp2 != "" {
+		pn, err := strconv.ParseFloat(tmp2, 64)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid product number format"})
 			return
 		}
 		productNumber = int(math.Max(pn, 5.0))

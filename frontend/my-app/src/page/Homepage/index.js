@@ -14,6 +14,7 @@ import { request } from '../../utils/request';
 
 function Homepage() {
   const [itemList, setItemList] = useState([])
+  const [digitalItemList, setDigitalItemList] = useState([])
   const location = useLocation()
   const [openSnackbar, setOpenSnackbar] = useState(false)
 
@@ -30,16 +31,22 @@ function Homepage() {
         console.error(error)
       }
     }
-    // async function test() {
-    //   try {
-    //     const res = await request.post('/auth/login', {"Username": "test", "Password": "114514"})
-    //     console.log(res)
-    //   } catch (error) {
-    //     console.error(error)
-    //   }
-    // }
-    getList()
-    // test()
+
+    async function getDigitalItemList() {
+      try {
+        const res = await request.post('/items/Category', {
+          "category_name": "Phones/Digital/Computers",
+          "start": 0,
+          "end": 10
+        })
+        setDigitalItemList(res.items)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    
+    getList();
+    getDigitalItemList();
   }, [])
 
   useEffect(() => {
@@ -76,7 +83,7 @@ function Homepage() {
         }}
       >
         <FeaturedSection title="Fashion Refresh" products={itemList} />
-        <FeaturedSection title="Digital Devices" products={itemList} />
+        <FeaturedSection title="Digital Devices" products={digitalItemList} />
         <FeaturedSection title="Sports Equipment" products={itemList} />
       </Container>
     </Box>

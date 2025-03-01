@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  TextField,
+import { 
+  Box, 
+  Container, 
+  Typography, 
+  TextField, 
   Button,
   FormControl,
   InputLabel,
@@ -29,7 +29,6 @@ const categories = [
 
 function UploadItem() {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token_key')
   const [formData, setFormData] = useState({
     title: '',
     price: '',
@@ -60,17 +59,16 @@ function UploadItem() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append('seller_jwt', token);
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('price', formData.price);
-      formDataToSend.append('category_name', formData.category);
-      formDataToSend.append('description', formData.description);
-      formDataToSend.append('file', formData.image);
+      formDataToSend.append('Title', formData.title);
+      formDataToSend.append('Price', formData.price);
+      formDataToSend.append('Category', formData.category);
+      formDataToSend.append('Description', formData.description);
+      formDataToSend.append('Pic', formData.image);
 
-      await request.post('items/create', formDataToSend);
+      await request.post('/items/upload', formDataToSend);
       navigate('/');
     } catch (error) {
       console.error('Error uploading item:', error);
@@ -85,7 +83,7 @@ function UploadItem() {
           <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#0021A5' }}>
             Upload Item for Sale
           </Typography>
-
+          
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
             <TextField
               fullWidth
@@ -167,10 +165,10 @@ function UploadItem() {
 
             {imagePreview && (
               <Box sx={{ mt: 2, mb: 3 }}>
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  style={{ maxWidth: '200px', maxHeight: '200px' }}
+                <img 
+                  src={imagePreview} 
+                  alt="Preview" 
+                  style={{ maxWidth: '200px', maxHeight: '200px' }} 
                 />
               </Box>
             )}

@@ -29,7 +29,6 @@ const categories = [
 
 function UploadItem() {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token_key')
   const [formData, setFormData] = useState({
     title: '',
     price: '',
@@ -63,14 +62,13 @@ function UploadItem() {
 
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append('seller_jwt', token);
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('price', formData.price);
-      formDataToSend.append('category_name', formData.category);
-      formDataToSend.append('description', formData.description);
-      formDataToSend.append('file', formData.image);
+      formDataToSend.append('Title', formData.title);
+      formDataToSend.append('Price', formData.price);
+      formDataToSend.append('Category', formData.category);
+      formDataToSend.append('Description', formData.description);
+      formDataToSend.append('Pic', formData.image);
 
-      await request.post('items/create', formDataToSend);
+      await request.post('/items/upload', formDataToSend);
       navigate('/');
     } catch (error) {
       console.error('Error uploading item:', error);
