@@ -7,10 +7,10 @@ const request = axios.create({
 })
 
 request.interceptors.request.use((config) => {
-  return config
-}, (error) => {
-  return Promise.reject(error);
-}
+    return config
+  }, (error) => {
+    return Promise.reject(error);
+  }
 )
 
 request.interceptors.response.use(

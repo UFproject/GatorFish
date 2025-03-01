@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  TextField,
+import { 
+  Box, 
+  Container, 
+  Typography, 
+  TextField, 
   Button,
   FormControl,
   InputLabel,
@@ -59,7 +59,7 @@ function UploadItem() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('Title', formData.title);
@@ -83,7 +83,7 @@ function UploadItem() {
           <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#0021A5' }}>
             Upload Item for Sale
           </Typography>
-
+          
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
             <TextField
               fullWidth
@@ -165,10 +165,10 @@ function UploadItem() {
 
             {imagePreview && (
               <Box sx={{ mt: 2, mb: 3 }}>
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  style={{ maxWidth: '200px', maxHeight: '200px' }}
+                <img 
+                  src={imagePreview} 
+                  alt="Preview" 
+                  style={{ maxWidth: '200px', maxHeight: '200px' }} 
                 />
               </Box>
             )}
