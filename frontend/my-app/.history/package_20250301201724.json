@@ -44,14 +44,13 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1"
   },
   "jest": {
     "transformIgnorePatterns": [
-      "node_modules/(?!(@react-router|react-router-dom|axios)/)"
+      "node_modules/(?!(@react-router|react-router-dom)/)"
     ],
     "moduleNameMapper": {
       "^react-router-dom$": "<rootDir>/node_modules/react-router-dom/dist/index.js"

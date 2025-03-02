@@ -55,6 +55,12 @@
     ],
     "moduleNameMapper": {
       "^react-router-dom$": "<rootDir>/node_modules/react-router-dom/dist/index.js"
-    }
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/mocks/",
+      "/__tests__/test-utils.js",
+      "/__tests__/.jest.config.js"
+    ]
   }
 }
