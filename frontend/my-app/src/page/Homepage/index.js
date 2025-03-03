@@ -13,40 +13,56 @@ import axios from "axios"
 import { request } from '../../utils/request';
 
 function Homepage() {
-  const [itemList, setItemList] = useState([])
-  const [digitalItemList, setDigitalItemList] = useState([])
+  const [itemList1, setItemList1] = useState([])
+  const [itemList2, setItemList2] = useState([])
+  const [itemList3, setItemList3] = useState([])
   const location = useLocation()
   const [openSnackbar, setOpenSnackbar] = useState(false)
 
   useEffect(()=>{
-    async function getList() {
-      try {
-        const res = await request.post('/items/Category', {
-          "category_name": "Electronics",
-          "start": 0,
-          "end": 10
-        })
-        setItemList(res.items)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    async function getDigitalItemList() {
+    
+    async function getItem1() {
       try {
         const res = await request.post('/items/Category', {
           "category_name": "Phones/Digital/Computers",
           "start": 0,
           "end": 10
         })
-        setDigitalItemList(res.items)
+        setItemList1(res.items)
       } catch (error) {
         console.error(error)
       }
     }
-    
-    getList();
-    getDigitalItemList();
+
+    async function getItem2() {
+      try {
+        const res = await request.post('/items/Category', {
+          "category_name": "Fashion/Bags/Sports",
+          "start": 0,
+          "end": 4
+        })
+        setItemList2(res.items)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    async function getItem3() {
+      try {
+        const res = await request.post('/items/Category', {
+          "category_name": "Baby/Beauty/Personal Care",
+          "start": 0,
+          "end": 4
+        })
+        setItemList3(res.items)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    getItem1();
+    getItem2();
+    getItem3();
   }, [])
 
   useEffect(() => {
@@ -82,9 +98,9 @@ function Homepage() {
           ml: '280px' // Add margin to account for CategoryMenu width
         }}
       >
-        <FeaturedSection title="Fashion Refresh" products={itemList} />
-        <FeaturedSection title="Digital Devices" products={digitalItemList} />
-        <FeaturedSection title="Sports Equipment" products={itemList} />
+        <FeaturedSection title="Digital Devices" products={itemList1} />
+        <FeaturedSection title="Sports Equipment" products={itemList2} />
+        <FeaturedSection title="Personal Care" products={itemList3} />
       </Container>
     </Box>
   );
