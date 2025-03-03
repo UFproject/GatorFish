@@ -1,6 +1,4 @@
 # Project: GF
-APIs for Gator Fish
-
 
 ## Frontend Testing
 
@@ -285,11 +283,11 @@ describe('Product Detail Page', () => {
 });
 ```
 
-# Backend Unit Testing Documentation
+## Backend Unit Testing Documentation
 
-## Test Cases
+### Test Cases
 
-### 1. Upload Item Test (`TestUploadItem`)
+#### 1. Upload Item Test (`TestUploadItem`)
 #### Description
 Tests the `/items/create` endpoint to verify item upload functionality with various inputs.
 #### Test Scenarios
@@ -303,7 +301,7 @@ Tests the `/items/create` endpoint to verify item upload functionality with vari
 
 ---
 
-### 2. Insert User Behavior Test (`TestInsertUserBehavior`)
+#### 2. Insert User Behavior Test (`TestInsertUserBehavior`)
 #### Description
 Tests the `/behavior/view` endpoint to verify user behavior tracking functionality.
 #### Test Scenarios
@@ -317,7 +315,7 @@ Tests the `/behavior/view` endpoint to verify user behavior tracking functionali
 
 ---
 
-### 3. Recommend Items Test (`TestRecommendItems`)
+#### 3. Recommend Items Test (`TestRecommendItems`)
 #### Description
 Tests the `/items/recommend` endpoint to verify item recommendation functionality.
 #### Test Scenarios
@@ -329,6 +327,28 @@ Tests the `/items/recommend` endpoint to verify item recommendation functionalit
 #### Expected Results
 - Successful requests return `200 OK` and a list of recommended items.
 - Invalid JWT or product number results in `401 Unauthorized`.
+
+---
+
+#### 4. Authentication Controllers Test (`TestAuthControllers`)
+#### Description
+Tests the authentication-related endpoints to ensure proper login and profile retrieval.
+#### Test Scenarios
+- **Login Success**: Ensures that a user can successfully log in with valid credentials.
+- **Profile Fetch**: Verifies that a valid user can retrieve their profile information.
+#### Expected Results
+- Successful login returns `200 OK`.
+- Profile retrieval returns `200 OK` with user details.
+
+---
+
+#### 5. Item Controllers Test (`TestItemControllers`)
+#### Description
+Tests item-related endpoints to ensure correct retrieval of items based on category.
+#### Test Scenarios
+- **Get Items By Category**: Ensures that items belonging to a specified category are correctly retrieved.
+#### Expected Results
+- Valid category requests return `200 OK` with a list of items.
 
 # Backend API Documentation
 
