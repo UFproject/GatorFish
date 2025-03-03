@@ -285,6 +285,53 @@ describe('Product Detail Page', () => {
 });
 ```
 
+# Backend Unit Testing Documentation
+
+## Test Cases
+
+### 1. Upload Item Test (`TestUploadItem`)
+#### Description
+Tests the `/items/create` endpoint to verify item upload functionality with various inputs.
+#### Test Scenarios
+- **Valid Item Upload With Image**: Ensures that an item with all required fields and an image is successfully uploaded.
+- **Valid Item Upload Without Image**: Verifies that an item can be uploaded even without an image.
+- **Invalid Price Format**: Ensures that an incorrect price format results in a `400 Bad Request` response.
+- **Invalid File Type**: Confirms that uploading a non-image file results in a `400 Bad Request` response.
+#### Expected Results
+- Successful uploads return `201 Created` with a success message.
+- Invalid inputs return appropriate error messages and status codes.
+
+---
+
+### 2. Insert User Behavior Test (`TestInsertUserBehavior`)
+#### Description
+Tests the `/behavior/view` endpoint to verify user behavior tracking functionality.
+#### Test Scenarios
+- **Valid Form Data**: Ensures correct behavior recording when all required fields are provided.
+- **Missing JWT**: Ensures that missing authentication results in a `400 Bad Request` response.
+- **Invalid Item ID**: Checks that an invalid item ID leads to a `400 Bad Request` response.
+- **Missing Behavior Type**: Verifies that missing behavior type defaults to "unknown" but still succeeds.
+#### Expected Results
+- Valid requests return `200 OK`.
+- Missing or invalid inputs return appropriate error messages and status codes.
+
+---
+
+### 3. Recommend Items Test (`TestRecommendItems`)
+#### Description
+Tests the `/items/recommend` endpoint to verify item recommendation functionality.
+#### Test Scenarios
+- **Valid JWT & Default Product Number**: Ensures a valid request returns recommended items.
+- **Valid JWT & Custom Product Number**: Ensures that specifying a product number returns the expected number of recommendations.
+- **Invalid JWT**: Checks that an invalid JWT results in a `401 Unauthorized` response.
+- **Invalid Product Number**: Ensures an incorrect product number leads to a `401 Unauthorized` response.
+- **No JWT (Random Recommendation)**: Verifies that unauthenticated users can still receive recommendations.
+#### Expected Results
+- Successful requests return `200 OK` and a list of recommended items.
+- Invalid JWT or product number results in `401 Unauthorized`.
+
+# Backend API Documentation
+
 ## End-point: register
 User register
 
