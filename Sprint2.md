@@ -1,5 +1,15 @@
 # Project: GF
 
+## Frontend Detail Work
+- Integrated frontend and backend APIs.
+- Imported redux to manage user token.
+- Added a register page.
+- Added a user menu.
+- Added a product upload page.
+- Added some snack bars.
+- Style update.
+- Unit tests and Cypress test.
+
 ## Frontend Testing
 
 ### Unit Tests
