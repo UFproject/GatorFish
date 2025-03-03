@@ -1,6 +1,290 @@
 # Project: GF
 APIs for Gator Fish
 
+
+## Frontend Testing
+
+### Unit Tests
+
+#### Running Unit Tests
+
+```bash
+npm test
+```
+
+#### Homepage Tests
+- renders AppAppBar component
+- renders CategoryMenu component
+- renders featured sections
+- fetches and displays items from API
+- shows login success notification when coming from login page
+
+
+#### Product Page Tests
+- renders product title
+- renders product price
+- renders seller information
+- renders contact seller button
+- renders product image with correct URL
+- displays loading state when product is not available
+
+
+#### SignIn Page Tests
+- renders sign in form with all fields
+- renders sign up link
+
+
+#### Example Unit Tests
+
+##### Homepage Tests
+
+```javascript
+describe('Homepage', () => {
+  beforeEach(() => {
+    // Setup mock responses for API calls
+    request.post.mockImplementation((url, data) => {
+      if (url === '/items/Category' && data.category_name === 'Electronics') {
+        return Promise.resolve({
+          items: [
+            { id: 1, Title: 'Electronics Item 1', Price: 100, Pic: '/test1.jpg', Seller_name: 'Seller 1' }
+          ]
+        });
+      }
+      // Additional mock implementations...
+    });
+  });
+
+  test('renders AppAppBar component', () => {
+    render(<Homepage />);
+    expect(screen.getByText('GATOR FISH MARKET')).toBeInTheDocument();
+  });
+
+  test('renders CategoryMenu component', () => {
+    render(<Homepage />);
+    expect(screen.getByText('Phones/Digital/Computers')).toBeInTheDocument();
+  });
+
+  test('fetches and displays items from API', async () => {
+    render(<Homepage />);
+    await waitFor(() => {
+      expect(request.post).toHaveBeenCalledTimes(2);
+    });
+    await waitFor(() => {
+      expect(screen.getAllByText('Electronics Item 1')[0]).toBeInTheDocument();
+    });
+  });
+});
+```
+
+
+##### Product Page Tests
+
+```javascript
+describe('Product', () => {
+  beforeEach(() => {
+    const mockUseLocation = require('react-router-dom').useLocation;
+    mockUseLocation.mockImplementation(() => ({
+      state: {
+        product: {
+          id: 1,
+          Title: 'Test Product',
+          Price: 99.99,
+          Pic: '/images/test.jpg',
+          Seller_name: 'Test Seller'
+        }
+      },
+      search: '?id=1'
+    }));
+  });
+
+  test('renders product title', () => {
+    renderWithRedux(<Product />);
+    expect(screen.getByText('Test Product')).toBeInTheDocument();
+  });
+
+  test('renders product price', () => {
+    renderWithRedux(<Product />);
+    expect(screen.getByText('$99.99')).toBeInTheDocument();
+  });
+
+  test('renders contact seller button', () => {
+    renderWithRedux(<Product />);
+    expect(screen.getByText('Contact Seller')).toBeInTheDocument();
+  });
+});
+```
+
+
+##### SignIn Page Tests
+
+```javascript
+describe('SignIn', () => {
+  test('renders sign in form with all fields', () => {
+    renderWithProviders(<SignIn />);
+    expect(screen.getByText(/sign in/i, { selector: 'h1' })).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('username')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('••••••')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Sign in' })).toBeInTheDocument();
+  });
+
+  test('renders sign up link', () => {
+    renderWithProviders(<SignIn />);
+    expect(screen.getByText("Don't have an account?")).toBeInTheDocument();
+    expect(screen.getByText('Sign up')).toBeInTheDocument();
+  });
+});
+```
+
+
+### Cypress End-to-End Tests
+
+#### Running Cypress Tests
+
+```bash
+# Open Cypress Test Runner
+npm run cypress:open
+
+# Run tests headlessly
+npm run cypress:run
+```
+#### Homepage Tests
+
+- displays header with market name
+- has search input field
+- shows sign in button
+- displays category menu
+- can enter text in search field
+
+
+#### Navigation Tests
+
+- can click sign in button
+- shows category navigation options
+- allows typing in search field
+
+#### Product Page Tests
+
+- can visit a product page
+- can navigate using browser back
+
+#### SignIn Page Tests
+
+- displays sign in form
+- has username and password fields
+- can type in login fields
+- can navigate to sign up page
+
+#### SignUp Page Tests
+
+- can access sign up form
+- has form fields
+- can type in registration fields
+- can navigate to sign in page
+
+
+#### Category Tests
+
+- can visit a category page
+
+#### Search Tests
+
+- can type in search field
+- can clear search field after typing
+
+#### Cypress Configuration
+
+```javascript
+// cypress.config.js
+const { defineConfig } = require('cypress');
+
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: 'http://localhost:3000',
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
+    },
+  },
+  env: {
+    TEST_USERNAME: 'testuser',
+    TEST_PASSWORD: 'password123',
+  },
+  viewportWidth: 1280,
+  viewportHeight: 720,
+  video: false,
+});
+```
+
+#### Example Cypress Tests
+
+
+##### Homepage Tests
+
+```javascript
+describe('Homepage', () => {
+  beforeEach(() => {
+    cy.visit('/');
+  });
+
+  it('displays header with market name', () => {
+    cy.contains('GATOR FISH MARKET').should('be.visible');
+  });
+
+  it('has search input field', () => {
+    cy.get('input[placeholder="Search for anything"]').should('be.visible');
+  });
+
+  it('shows sign in button', () => {
+    cy.contains('Sign In').should('be.visible');
+  });
+
+  it('displays category menu', () => {
+    cy.contains('Phones/Digital/Computers').should('be.visible');
+  });
+});
+```
+
+
+##### Sign In Tests
+
+```javascript
+describe('Sign In', () => {
+  beforeEach(() => {
+    cy.visit('/login');
+  });
+
+  it('displays sign in form', () => {
+    cy.get('form').should('be.visible');
+  });
+
+  it('has username and password fields', () => {
+    cy.get('input[placeholder="username"]').should('exist');
+    cy.get('input[type="password"]').should('exist');
+  });
+
+  it('can type in login fields', () => {
+    cy.get('input[placeholder="username"]').type('test');
+    cy.get('input[type="password"]').type('password123');
+  });
+});
+```
+
+##### Product Page Tests
+
+```javascript
+describe('Product Detail Page', () => {
+  it('can visit a product page', () => {
+    cy.visit('/item?id=1');
+  });
+
+  it('can navigate using browser back', () => {
+    cy.visit('/');
+    cy.visit('/item?id=1');
+    cy.go('back');
+    cy.contains('GATOR FISH MARKET').should('be.visible');
+  });
+});
+```
+
 ## End-point: register
 User register
 
