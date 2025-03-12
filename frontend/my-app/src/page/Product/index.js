@@ -5,7 +5,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import AppAppBar from '../../components/layout/AppAppBar';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import imageUrl from '../../assets/images/ball.jpg';
+import { Link } from 'react-router-dom';
 
 function Product() {
   const location = useLocation();
@@ -70,7 +70,7 @@ function Product() {
                 ${product.Price}
               </Typography>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+              {/* {<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                 <LocationOnIcon sx={{ color: 'text.secondary' }} />
                 <Typography color="text.secondary">
                   Gainesville
@@ -80,9 +80,14 @@ function Product() {
                 <Typography color="text.secondary">
                   100 views
                 </Typography>
-              </Box>
+              </Box>} */}
+              <Typography variant="body">
+                {product.Description}
+              </Typography>
 
-              <Box sx={{
+              <Box component={Link} to={`/profile?username=${product.Seller_name}`} sx={{
+                textDecoration: 'none',
+                color: 'inherit',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 2,
@@ -92,10 +97,6 @@ function Product() {
                 boxShadow: 1,
                 mb: 3
               }}>
-                <Avatar
-                  src={"https://mui.com/static/images/avatar/4.jpg"}
-                  sx={{ width: 56, height: 56 }}
-                />
                 <Box>
                   <Typography variant="h6">
                     {product.Seller_name}

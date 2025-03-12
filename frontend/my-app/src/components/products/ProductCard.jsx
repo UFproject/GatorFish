@@ -39,7 +39,7 @@ const ProductCard = ({ product }) => {
             ${product.Price}
           </Typography>
 
-          {/* Location and Views */}
+          {/* Location and Views 
           <Box sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -57,14 +57,13 @@ const ProductCard = ({ product }) => {
               <Typography variant="body2"> 10 </Typography>
             </Box>
           </Box>
+          */}
 
           {/* Seller Info */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Avatar
-              sx={{ width: 24, height: 24 }}
-              // src={product.seller.avatar}
-              src={"https://mui.com/static/images/avatar/4.jpg"}
-            />
+            <Typography variant="body2" color="text.secondary">
+              Sold by:
+            </Typography>
             <Typography variant="body2" color="text.secondary">
               {product.Seller_name}
             </Typography>

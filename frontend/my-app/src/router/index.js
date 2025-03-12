@@ -4,6 +4,7 @@ import SignIn from "../page/SignIn"
 import SignUp from "../page/SignUp"
 import { createBrowserRouter } from 'react-router-dom'
 import UploadItem from "../page/UploadItem"
+import Profile from "../page/Profile"
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,11 @@ const router = createBrowserRouter([
   {
     path:'uploadItem',
     element: <UploadItem />
-  }
+  },
+  {
+    path:'profile',
+    element: <Profile />
+  },
 ])
 
 export default router

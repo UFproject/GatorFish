@@ -51,6 +51,7 @@ const SearchBar = styled(TextField)(({ theme }) => ({
 
 const AppAppBar = () => {
   const token = localStorage.getItem('token_key')
+  const username = localStorage.getItem('username')
   const dispatch = useDispatch()
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -120,7 +121,7 @@ const AppAppBar = () => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={handleClose}>
+              <MenuItem component={Link} to={`/profile?username=${username}`} onClick={handleClose}>
                 <ListItemIcon>
                   <AccountCircle />
                 </ListItemIcon>

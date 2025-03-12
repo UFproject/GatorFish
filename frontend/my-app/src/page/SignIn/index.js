@@ -77,6 +77,7 @@ function SignIn() {
     }
     try {
       await dispatch(fetchLogin(form));
+      localStorage.setItem('username', form.Username)
       navigate('/', {state: { fromLogin: true }})
     } catch (error) {
       setErrorMessage(error.response.data.error)
