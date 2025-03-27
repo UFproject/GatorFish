@@ -24,7 +24,7 @@ const ProductCard = ({ product }) => {
         transition: 'all 0.3s ease-in-out'
       }
     }}>
-      <CardActionArea component={Link} to={`/item?id=${product.id}`} state={{product}}>
+      <CardActionArea component={Link} to={`/item?id=${product.Item_id}`} state={{product}}>
         <CardMedia
           component="img"
           height="200"

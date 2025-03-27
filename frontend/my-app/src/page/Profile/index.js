@@ -117,7 +117,7 @@ function Profile() {
 
         <TabPanel value={activeTab} index={0}>
           <Grid container spacing={2}>
-          {userProfile.items?.slice(0, 4).map((product, index) => (
+          {userProfile.items?.slice(0, userProfile.size).map((product, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
               <ProductCard product = {product}/>
             </Grid>

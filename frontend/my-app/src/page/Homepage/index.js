@@ -98,9 +98,9 @@ function Homepage() {
           ml: '280px' // Add margin to account for CategoryMenu width
         }}
       >
-        <FeaturedSection title="Digital Devices" products={itemList1} />
-        <FeaturedSection title="Sports Equipment" products={itemList2} />
-        <FeaturedSection title="Personal Care" products={itemList3} />
+        <FeaturedSection title="Phones/Digital/Computers" products={itemList1} />
+        <FeaturedSection title="Fashion/Bags/Sports" products={itemList2} />
+        <FeaturedSection title="Baby/Beauty/Personal Care" products={itemList3} />
       </Container>
     </Box>
   );

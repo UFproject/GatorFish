@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Link } from '@mui/material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import ChildCareIcon from '@mui/icons-material/ChildCare';
@@ -8,6 +8,8 @@ import DiamondIcon from '@mui/icons-material/Diamond';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import { useNavigate, useLocation } from 'react-router-dom'
+
 
 const categories = [
   { title: 'Phones/Digital/Computers', icon: <PhoneAndroidIcon /> },
@@ -21,9 +23,15 @@ const categories = [
 ];
 
 const CategoryMenu = () => {
+  const navigate = useNavigate();
+
+  const handleClick = (category) => {
+    navigate(`/category?category_name=${category.title}`);
+  };
+
   return (
     <Box sx={{ 
-      width: 280,
+      width: 300,
       bgcolor: 'background.paper',
       borderRight: 1,
       borderColor: 'divider',
@@ -38,7 +46,6 @@ const CategoryMenu = () => {
         {categories.map((category, index) => (
           <ListItem 
             key={index} 
-            button
             sx={{
               '&:hover': {
                 bgcolor: 'action.hover',
@@ -48,10 +55,12 @@ const CategoryMenu = () => {
               }
             }}
           >
-            <ListItemIcon sx={{ color: '#0021A5' }}>
-              {category.icon}
-            </ListItemIcon>
-            <ListItemText primary={category.title} />
+            <ListItemButton onClick={() => handleClick(category)}>
+              <ListItemIcon sx={{ color: '#0021A5' }}>
+                {category.icon}
+              </ListItemIcon>
+              <ListItemText primary={category.title} />
+            </ListItemButton>
           </ListItem>
         ))}
       </List>

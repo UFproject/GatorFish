@@ -5,6 +5,7 @@ import SignUp from "../page/SignUp"
 import { createBrowserRouter } from 'react-router-dom'
 import UploadItem from "../page/UploadItem"
 import Profile from "../page/Profile"
+import CategoryPage from "../page/Category"
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path:'profile',
     element: <Profile />
+  },
+  {
+    path:'category',
+    element: <CategoryPage />
   },
 ])
 

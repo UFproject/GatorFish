@@ -2,8 +2,15 @@ import React from 'react';
 import { Box, Typography, Grid, Button } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ProductCard from '../products/ProductCard';
+import { useNavigate } from 'react-router-dom'
 
 const FeaturedSection = ({ title, products }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/category?category_name=${title}`);
+  };
+
   return (
     <Box sx={{ mb: 6 }}>
       {/* Section Header */}
@@ -30,6 +37,7 @@ const FeaturedSection = ({ title, products }) => {
               backgroundColor: 'transparent'
             }
           }}
+          onClick={handleClick}
         >
           See All
         </Button>
