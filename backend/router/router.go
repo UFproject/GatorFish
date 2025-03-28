@@ -26,13 +26,20 @@ func SetupRouter() *gin.Engine {
 		auth.POST("/register", controllers.Register)
 
 		auth.POST("/profile", controllers.Profile)
+
+		auth.POST("/change", controllers.ChangePassword)
 	}
 
 	items := r.Group("/items")
-	items.POST("/create", controllers.UploadItem)
-	items.POST("/Category", controllers.GetItemsByCategory)
-	items.POST("/recommend", controllers.RecommendItems)
-	items.POST("/id", controllers.GetItemByID)
+	{
+		items.POST("/create", controllers.UploadItem)
+		items.POST("/Category", controllers.GetItemsByCategory)
+		items.POST("/recommend", controllers.RecommendItems)
+		items.POST("/id", controllers.GetItemByID)
+		items.POST("/update", controllers.UpdateItem)
+		items.POST("/AddLike", controllers.AddLike)
+		items.POST("/RemoveLike", controllers.RemoveLike)
+	}
 
 	behavior := r.Group("/behavior")
 	behavior.POST("/view", controllers.InsertUserBehavior)

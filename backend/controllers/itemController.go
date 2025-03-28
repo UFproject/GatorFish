@@ -158,3 +158,102 @@ func GetItemByID(ctx *gin.Context) {
 		"item": item,
 	})
 }
+
+func UpdateItem(ctx *gin.Context) {
+	if err := ctx.Request.ParseMultipartForm(10 << 20); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Failed to parse form data"})
+		return
+	}
+
+	itemIDStr := ctx.PostForm("item_id")
+	itemID, err := strconv.Atoi(itemIDStr)
+	if err != nil || itemID <= 0 {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid item_id"})
+		return
+	}
+
+	sellerName, err := utils.ParseJWT(ctx.PostForm("seller_jwt"))
+	if err != nil || sellerName == "" {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or missing JWT"})
+		return
+	}
+
+	var existingItem models.Item
+	if err := global.Db.Table("items").Where("item_id = ?", itemID).First(&existingItem).Error; err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "Item not found"})
+		return
+	}
+
+	if existingItem.Seller_name != sellerName {
+		ctx.JSON(http.StatusForbidden, gin.H{"error": "Unauthorized to update this item"})
+		return
+	}
+
+	// Build update map
+	updateData := map[string]interface{}{}
+
+	if title := ctx.PostForm("title"); title != "" {
+		updateData["title"] = title
+	}
+	if desc := ctx.PostForm("description"); desc != "" {
+		updateData["description"] = desc
+	}
+	if category := ctx.PostForm("category_name"); category != "" {
+		updateData["category_name"] = category
+	}
+	if priceStr := ctx.PostForm("price"); priceStr != "" {
+		if price, err := strconv.ParseFloat(priceStr, 32); err == nil {
+			updateData["price"] = float32(price)
+		} else {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid price format"})
+			return
+		}
+	}
+	if status := ctx.PostForm("status"); status != "" {
+		updateData["status"] = status
+	}
+
+	// Handle image upload
+	file, err := ctx.FormFile("file")
+	if err == nil {
+		openedFile, err := file.Open()
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to open uploaded file"})
+			return
+		}
+		defer openedFile.Close()
+
+		buffer := make([]byte, 512)
+		if _, err := openedFile.Read(buffer); err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read uploaded file"})
+			return
+		}
+
+		fileType := http.DetectContentType(buffer)
+		if fileType != "image/jpeg" && fileType != "image/png" && fileType != "image/gif" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid file type. Only JPEG, PNG, and GIF are allowed."})
+			return
+		}
+
+		fileName := fmt.Sprintf("%d_%s", time.Now().UnixNano(), file.Filename)
+		uploadPath := "./uploads/" + fileName
+
+		if err := ctx.SaveUploadedFile(file, uploadPath); err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save uploaded file"})
+			return
+		}
+
+		updateData["pic"] = uploadPath[1:] // remove leading dot
+	}
+
+	// Perform update
+	if err := global.Db.Table("items").Where("item_id = ?", itemID).Updates(updateData).Error; err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update item"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "Item updated successfully",
+		"updates": updateData,
+	})
+}
