@@ -6,6 +6,9 @@ import { createBrowserRouter } from 'react-router-dom'
 import UploadItem from "../page/UploadItem"
 import Profile from "../page/Profile"
 import CategoryPage from "../page/Category"
+import Account from "../page/Account"
+import Favorites from "../page/Favorites"
+import UpdateItems from "../page/UpdateItem"
 
 const router = createBrowserRouter([
   {
@@ -30,7 +33,21 @@ const router = createBrowserRouter([
   },
   {
     path:'profile',
-    element: <Profile />
+    element: <Profile />,
+    children: [
+      {
+        index: true,
+        element: <Favorites />
+      },
+      {
+        path: 'account',
+        element: <Account />
+      },
+      {
+        path: 'updateItem',
+        element: <UpdateItems />
+      }
+    ]
   },
   {
     path:'category',

@@ -22,6 +22,7 @@ import Upload from '@mui/icons-material/Upload';
 import Logout from '@mui/icons-material/Logout';
 import { useDispatch } from 'react-redux'
 import { clearUserInfo } from '../../store/modules/user'
+import { stringToColor } from '../../utils/stringToColor'
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -105,8 +106,9 @@ const AppAppBar = () => {
             </Button>}
             {token && 
             <Avatar
-              src={"https://mui.com/static/images/avatar/1.jpg"}
-              sx={{ width: 56, height: 56 }}
+              src="/path/to/user-avatar.jpg"
+              alt={username}
+              sx={{ width: 56, height: 56, cursor: 'pointer', bgcolor: stringToColor(username), fontSize: '2rem'}}
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}

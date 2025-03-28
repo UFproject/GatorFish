@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container, Grid, Typography, Button, Avatar } from '@mui/material';
+import { Box, Container, Grid, Typography, Button, Avatar, Snackbar } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AppAppBar from '../../components/layout/AppAppBar';
-import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { request } from '../../utils/request';
+import { stringToColor } from '../../utils/stringToColor';
 
 function Product() {
   const location = useLocation();
   const [product, setProduct] = useState(location.state?.product || null);
   const productId = new URLSearchParams(location.search).get('id');
-  const BASE_URL = process.env.REACT_APP_BASE_URL
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const username = localStorage.getItem('username');
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMsg, setSnackbarMsg] = useState("");
   // console.log(location)
 
   // useEffect(() => {
@@ -33,8 +38,35 @@ function Product() {
     return <div>Loading...</div>;
   }
 
+  const handleLiked = async () => {
+    try {
+      const res = await request.post('/items/AddLike', {
+        "username": username,
+        "item_id": product.Item_id
+      });
+      setSnackbarMsg("Successfully added to favorites");
+      setOpenSnackbar(true);
+    } catch (error) {
+      console.error('Error add like behavior:', error);
+      setSnackbarMsg(error.response.data.error);
+      setOpenSnackbar(true);
+    }
+  }
+
+  const handleClose = () => {
+    setOpenSnackbar(false);
+  }
+
+
   return (
     <Box>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message={snackbarMsg}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      />
       <AppAppBar />
       <Container
         maxWidth="lg"
@@ -81,8 +113,8 @@ function Product() {
                   100 views
                 </Typography>
               </Box>} */}
-              <Typography variant="body">
-                {product.Description}
+              <Typography fontSize={24} gutterBottom>
+                Description: {product.Description}
               </Typography>
 
               <Box component={Link} to={`/profile?username=${product.Seller_name}`} sx={{
@@ -97,6 +129,15 @@ function Product() {
                 boxShadow: 1,
                 mb: 3
               }}>
+                <Avatar
+                  src="/path/to/user-avatar.jpg"
+                  alt={product.Seller_name}
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    bgcolor: stringToColor(product.Seller_name)
+                  }}
+                />
                 <Box>
                   <Typography variant="h6">
                     {product.Seller_name}
@@ -107,19 +148,33 @@ function Product() {
                 </Box>
               </Box>
 
-              <Button
-                variant="contained"
-                fullWidth
-                size="large"
-                sx={{
-                  bgcolor: '#0021A5',
-                  '&:hover': {
-                    bgcolor: '#001A84'
-                  }
-                }}
-              >
-                Contact Seller
-              </Button>
+              <Box display="flex" gap={1} width="100%">
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: '#0021A5',
+                    '&:hover': {
+                      bgcolor: '#001A84'
+                    },
+                    width: 'calc(50% - 4px)'
+                  }}
+                >
+                  Contact Seller
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: '#1976d2',
+                    '&:hover': {
+                      bgcolor: '#1976d2'
+                    },
+                    width: 'calc(50% - 4px)'
+                  }}
+                  onClick={handleLiked}
+                >
+                  Add to Favorites
+                </Button>
+              </Box>
             </Box>
           </Grid>
         </Grid>

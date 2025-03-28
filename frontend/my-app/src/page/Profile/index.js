@@ -1,131 +1,120 @@
-import { Box, Container, Tabs, Tab, Typography,
+import {
+  Box, Container, Typography, ListItemButton, ListItemIcon, ListItemText,
+  CssBaseline,
   Avatar,
-  CardHeader,
-  CardContent,
-  Grid} from '@mui/material';
+  Grid,
+  List
+} from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { request } from '../../utils/request';
 import AppAppBar from "../../components/layout/AppAppBar";
-import ProductCard from '../../components/products/ProductCard';
-import PropTypes from 'prop-types';
-import MuiCard from '@mui/material/Card'
-import { styled } from '@mui/material/styles'
-
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
-  width: '100%',
-
-  margin: 'auto',
-  boxShadow:
-    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-  ...theme.applyStyles('dark', {
-    boxShadow:
-      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
-  }),
-}));
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
+import { Link, Outlet } from 'react-router-dom';
+import { stringToColor } from '../../utils/stringToColor';
 
 function Profile() {
   const [searchParams] = useSearchParams();
   const username = searchParams.get('username');
   const [userProfile, setUserProfile] = useState([]);
-  useEffect(()=>{
+  const [editPermission, setEditPermission] = useState(false);
+  useEffect(() => {
+    setEditPermission(localStorage.getItem('username') === username);
     async function getProfile() {
       try {
-        const res = await request.post('/auth/profile', {username});
+        const res = await request.post('/auth/profile', { username });
         setUserProfile(res);
-        console.log(res);
+        // console.log(res);
       } catch (error) {
         console.error(error)
       }
     }
-
     getProfile();
+    
   }, [])
 
-  const [activeTab, setActiveTab] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
   };
 
   return (
-    <Box>
+    <Box >
+      <CssBaseline />
       <AppAppBar />
-      <Container
-        maxWidth="lg"
+      <Box
         sx={{
-          mt: 12,
-          mb: 4
+          width: '100%',
+          backgroundColor: '#f4f6f6',
+          py: 4,
+          position: 'relative',
+          marginTop: 8
         }}
       >
-        <Card variant="outlined" sx={{ mt: 4, mb: 4 }}>
-          <CardHeader
-            avatar={
-              <Avatar 
-                sx={{ width: 80, height: 80 }}
-                src={"https://mui.com/static/images/avatar/1.jpg"}
+        <Container maxWidth="lg">
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4
+            }}
+          >
+            <Avatar
+              src="/path/to/user-avatar.jpg"
+              alt={userProfile.username}
+              sx={{
+                bgcolor: stringToColor(userProfile.username),
+                width: 128,  // 128px
+                height: 128,
+                fontSize: '3rem'
+              }}
+            />
+            <Typography variant="h3" component="h1">
+              {userProfile.username}
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
+      <Container sx={{ display: 'flex' }}>
+        <Grid container spacing={4}>
+          {/* left side */}
+          <Grid item xs={12} md={3}>
+            <List component="nav">
+              <ListItemButton
+                component={Link} to="/profile"
+                selected={selectedIndex === 0}
+                onClick={(event) => handleListItemClick(event, 0)}
               >
-              </Avatar>
-            }
-            title={
-              <Typography variant="h4" component="div">
-                {userProfile.username}
-              </Typography>
-            }
-          />
-        </Card>
-        <Tabs 
-          value={activeTab} 
-          onChange={handleTabChange}
-          variant="fullWidth"
-          sx={{ mb: 3 }}
-        >
-          <Tab 
-            label={"Selling"}
-            aria-controls="tabpanel-selling"
-          />
-          <Tab 
-            label={"Liked"}
-            aria-controls="tabpanel-favorite"
-          />
-        </Tabs>
+                <ListItemText primary="Sellings and Favorites" />
+              </ListItemButton>
 
-        <TabPanel value={activeTab} index={0}>
-          <Grid container spacing={2}>
-          {userProfile.items?.slice(0, userProfile.size).map((product, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <ProductCard product = {product}/>
-            </Grid>
-          ))}
+              {editPermission && (
+                <ListItemButton 
+                  component={Link} to="/profile/account"
+                  selected={selectedIndex === 1}
+                  onClick={(event) => handleListItemClick(event, 1)}
+                >
+                  <ListItemText primary="Account" />
+                </ListItemButton>
+              )}
+              {editPermission && (
+                <ListItemButton 
+                  component={Link} to="/profile/updateItem"
+                  selected={selectedIndex === 2}
+                  onClick={(event) => handleListItemClick(event, 2)}
+                >
+                  <ListItemText primary="Edit Products" />
+                </ListItemButton>
+              )}
+            </List>
+          </Grid>
+
+          {/* right side */}
+          <Grid item xs={12} md={9}>
+            <Outlet context={{ userProfile: userProfile }} />
+          </Grid>
         </Grid>
-        </TabPanel>
       </Container>
-      
     </Box>
   )
 }
