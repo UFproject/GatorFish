@@ -135,7 +135,8 @@ function Product() {
                   sx={{
                     width: 56,
                     height: 56,
-                    bgcolor: stringToColor(product.Seller_name)
+                    bgcolor: stringToColor(product.Seller_name),
+                    fontSize: '2rem'
                   }}
                 />
                 <Box>

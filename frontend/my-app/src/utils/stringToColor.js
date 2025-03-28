@@ -1,4 +1,7 @@
 function stringToColor(string) {
+  if(!string) {
+    return '#ffffff';
+  }
   let hash = 0;
   let i;
 
