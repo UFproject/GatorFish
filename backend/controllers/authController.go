@@ -127,9 +127,9 @@ func Profile(ctx *gin.Context) {
 
 func ChangePassword(ctx *gin.Context) {
 	var input struct {
-		Username    string `json:"username"`
-		OldPassword string `json:"old_password"`
-		NewPassword string `json:"new_password"`
+		Username    string `json:"username" binding:"required"`
+		OldPassword string `json:"old_password" binding:"required"`
+		NewPassword string `json:"new_password" binding:"required"`
 	}
 
 	if err := ctx.ShouldBindJSON(&input); err != nil {

@@ -93,3 +93,182 @@ func TestItemControllers(t *testing.T) {
 		})
 	}
 }
+
+func TestLikeControllers(t *testing.T) {
+	config.InitConfig()
+	gin.SetMode(gin.TestMode)
+	r := router.SetupRouter()
+
+	tests := []struct {
+		name       string
+		method     string
+		url        string
+		body       interface{}
+		wantStatus int
+	}{
+		{
+			name:       "Add Like - Valid",
+			method:     "POST",
+			url:        "/items/AddLike",
+			body:       map[string]interface{}{"username": "Anna", "item_id": 42},
+			wantStatus: http.StatusOK,
+		},
+		{
+			name:       "Add Like - Missing Username",
+			method:     "POST",
+			url:        "/items/AddLike",
+			body:       map[string]interface{}{"item_id": 42},
+			wantStatus: http.StatusBadRequest,
+		},
+		{
+			name:       "Add Like - Invalid Item ID",
+			method:     "POST",
+			url:        "/items/AddLike",
+			body:       map[string]interface{}{"username": "Anna", "item_id": -1},
+			wantStatus: http.StatusBadRequest,
+		},
+		{
+			name:       "Remove Like - Valid",
+			method:     "POST",
+			url:        "/items/RemoveLike",
+			body:       map[string]interface{}{"username": "Anna", "item_id": 42},
+			wantStatus: http.StatusOK,
+		},
+		{
+			name:       "Remove Like - Like Not Exist",
+			method:     "POST",
+			url:        "/items/RemoveLike",
+			body:       map[string]interface{}{"username": "nouser", "item_id": 9999},
+			wantStatus: http.StatusBadRequest,
+		},
+		{
+			name:       "Remove Like - Missing Item ID",
+			method:     "POST",
+			url:        "/items/RemoveLike",
+			body:       map[string]interface{}{"username": "Anna"},
+			wantStatus: http.StatusBadRequest,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			jsonBody, _ := json.Marshal(tt.body)
+			w := performRequest(r, tt.method, tt.url, jsonBody)
+
+			assert.Equal(t, tt.wantStatus, w.Code)
+		})
+	}
+}
+func TestProfileController(t *testing.T) {
+	config.InitConfig()
+	gin.SetMode(gin.TestMode)
+	r := router.SetupRouter()
+
+	tests := []struct {
+		name       string
+		method     string
+		url        string
+		body       interface{}
+		wantStatus int
+	}{
+		{
+			name:       "Valid Profile Request",
+			method:     "POST",
+			url:        "/auth/profile",
+			body:       map[string]string{"username": "Anna"},
+			wantStatus: http.StatusOK,
+		},
+		{
+			name:       "Missing Username",
+			method:     "POST",
+			url:        "/auth/profile",
+			body:       map[string]string{},
+			wantStatus: http.StatusBadRequest,
+		},
+		{
+			name:       "Invalid JSON Format",
+			method:     "POST",
+			url:        "/auth/profile",
+			body:       "not a json object",
+			wantStatus: http.StatusBadRequest,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var jsonBody []byte
+			if s, ok := tt.body.(string); ok {
+				// turn to byte format for wrong json format
+				jsonBody = []byte(s)
+			} else {
+				jsonBody, _ = json.Marshal(tt.body)
+			}
+			w := performRequest(r, tt.method, tt.url, jsonBody)
+			assert.Equal(t, tt.wantStatus, w.Code)
+		})
+	}
+}
+func TestChangePasswordController(t *testing.T) {
+	config.InitConfig()
+	gin.SetMode(gin.TestMode)
+	r := router.SetupRouter()
+
+	tests := []struct {
+		name       string
+		method     string
+		url        string
+		body       interface{}
+		wantStatus int
+	}{
+		{
+			name:   "Valid Password Change",
+			method: "POST",
+			url:    "/auth/change",
+			body: map[string]string{
+				"username":     "Anna",
+				"old_password": "abcdef",
+				"new_password": "newpass123",
+			},
+			wantStatus: http.StatusOK,
+		},
+		{
+			name:   "Wrong Old Password",
+			method: "POST",
+			url:    "/auth/change",
+			body: map[string]string{
+				"username":     "Anna",
+				"old_password": "wrongpass",
+				"new_password": "newpass123",
+			},
+			wantStatus: http.StatusUnauthorized,
+		},
+		{
+			name:   "User Not Found",
+			method: "POST",
+			url:    "/auth/change",
+			body: map[string]string{
+				"username":     "nonexistent",
+				"old_password": "oldpass",
+				"new_password": "newpass123",
+			},
+			wantStatus: http.StatusUnauthorized,
+		},
+		{
+			name:   "Missing Fields",
+			method: "POST",
+			url:    "/auth/change",
+			body: map[string]string{
+				"username": "Anna",
+			},
+			wantStatus: http.StatusBadRequest,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			jsonBody, _ := json.Marshal(tt.body)
+			w := performRequest(r, tt.method, tt.url, jsonBody)
+			assert.Equal(t, tt.wantStatus, w.Code)
+		})
+	}
+}

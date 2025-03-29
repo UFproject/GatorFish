@@ -308,3 +308,77 @@ func TestRecommendItems(t *testing.T) {
 		})
 	}
 }
+func TestUpdateItemController(t *testing.T) {
+	config.InitConfig()
+	gin.SetMode(gin.TestMode)
+	r := router.SetupRouter()
+
+	const AnnaToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDM0NjE0MzcsInVzZXJuYW1lIjoiQW5uYSJ9.zbV-cpa6dceH4JacjOwMttO2nGcckqq9lNp53ldbs5Q"
+	//user Anna
+	tests := []struct {
+		name       string
+		formData   map[string]string
+		wantStatus int
+	}{
+		{
+			name: "Valid Update Request",
+			formData: map[string]string{
+				"item_id":       "1",
+				"seller_jwt":    AnnaToken,
+				"title":         "Updated Title",
+				"description":   "Updated Description",
+				"category_name": "Updated Category",
+				"price":         "123.45",
+				"status":        "inactive",
+			},
+			wantStatus: http.StatusOK,
+		},
+		{
+			name: "Missing item_id",
+			formData: map[string]string{
+				"seller_jwt": AnnaToken,
+			},
+			wantStatus: http.StatusBadRequest,
+		},
+		{
+			name: "Invalid price format",
+			formData: map[string]string{
+				"item_id":    "1",
+				"seller_jwt": AnnaToken,
+				"price":      "not-a-number",
+			},
+			wantStatus: http.StatusBadRequest,
+		},
+		{
+			name: "Invalid JWT",
+			formData: map[string]string{
+				"item_id":    "1",
+				"seller_jwt": "invalid.jwt.token",
+			},
+			wantStatus: http.StatusUnauthorized,
+		},
+		{
+			name: "Item Not Found",
+			formData: map[string]string{
+				"item_id":    "999999",
+				"seller_jwt": AnnaToken,
+			},
+			wantStatus: http.StatusNotFound,
+		},
+		{
+			name: "Unauthorized Update Attempt",
+			formData: map[string]string{
+				"item_id":    "42",
+				"seller_jwt": AnnaToken, // JWT 中用户名与 item.Seller_name 不匹配
+			},
+			wantStatus: http.StatusForbidden,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := performFormRequest(r, "POST", "/items/update", tt.formData)
+			assert.Equal(t, tt.wantStatus, w.Code)
+		})
+	}
+}
