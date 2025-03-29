@@ -19,6 +19,9 @@ import (
 
 const JWTtoken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwNjIwNzQsInVzZXJuYW1lIjoiQW5uYSJ9.fyWVeszvyhRpOvu9G43FeKk1O2rG4S_shNfiFSuBc7c"
 
+// user Anna
+const AnnaToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDM0NjE0MzcsInVzZXJuYW1lIjoiQW5uYSJ9.zbV-cpa6dceH4JacjOwMttO2nGcckqq9lNp53ldbs5Q"
+
 // include fileupload request
 func performMultipartRequest(r *gin.Engine, method, path string, formData map[string]string, filePath string) *httptest.ResponseRecorder {
 	body := &bytes.Buffer{}
@@ -200,7 +203,7 @@ func TestInsertUserBehavior(t *testing.T) {
 		{
 			name: "Valid Form Data",
 			formData: map[string]string{
-				"user_jwt":      JWTtoken,
+				"user_jwt":      AnnaToken,
 				"item_id":       "1",
 				"behavior_type": "view",
 			},
@@ -217,7 +220,7 @@ func TestInsertUserBehavior(t *testing.T) {
 		{
 			name: "Invalid Item ID",
 			formData: map[string]string{
-				"user_jwt":      JWTtoken,
+				"user_jwt":      AnnaToken,
 				"item_id":       "invalid",
 				"behavior_type": "view",
 			},
@@ -226,7 +229,7 @@ func TestInsertUserBehavior(t *testing.T) {
 		{
 			name: "Missing Behavior Type (Should Default to 'unknown')",
 			formData: map[string]string{
-				"user_jwt": JWTtoken,
+				"user_jwt": AnnaToken,
 				"item_id":  "1",
 			},
 			wantStatus: http.StatusOK,
@@ -254,7 +257,7 @@ func TestRecommendItems(t *testing.T) {
 		{
 			name: "Valid JWT & Default Product Number",
 			formData: map[string]string{
-				"user_jwt": JWTtoken,
+				"user_jwt": AnnaToken,
 			},
 			wantStatus:    http.StatusOK,
 			expectResults: true,
@@ -262,8 +265,8 @@ func TestRecommendItems(t *testing.T) {
 		{
 			name: "Valid JWT & Custom Product Number",
 			formData: map[string]string{
-				"user_jwt":       JWTtoken,
-				"product_number": "10",
+				"user_jwt":       AnnaToken,
+				"product_number": "1",
 			},
 			wantStatus:    http.StatusOK,
 			expectResults: true,
@@ -279,7 +282,7 @@ func TestRecommendItems(t *testing.T) {
 		{
 			name: "Invalid Product Number",
 			formData: map[string]string{
-				"user_jwt":       JWTtoken,
+				"user_jwt":       AnnaToken,
 				"product_number": "invalid_number",
 			},
 			wantStatus:    http.StatusUnauthorized,
@@ -313,8 +316,6 @@ func TestUpdateItemController(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	r := router.SetupRouter()
 
-	const AnnaToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDM0NjE0MzcsInVzZXJuYW1lIjoiQW5uYSJ9.zbV-cpa6dceH4JacjOwMttO2nGcckqq9lNp53ldbs5Q"
-	//user Anna
 	tests := []struct {
 		name       string
 		formData   map[string]string
