@@ -187,7 +187,7 @@ function UploadItem() {
                 }
               }}
             >
-              List Item
+              Submit
             </Button>
           </Box>
         </Paper>

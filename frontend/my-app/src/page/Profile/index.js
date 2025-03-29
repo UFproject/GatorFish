@@ -111,7 +111,7 @@ function Profile() {
               )}
               {editPermission && (
                 <ListItemButton
-                  component={Link} to="/profile/updateItem"
+                  component={Link} to="/profile/manageItem"
                   selected={selectedIndex === 2}
                   onClick={(event) => handleListItemClick(event, 2)}
                 >
