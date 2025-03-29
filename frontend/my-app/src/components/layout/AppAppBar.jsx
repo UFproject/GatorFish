@@ -122,22 +122,37 @@ const AppAppBar = () => {
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
+              slotProps={{
+                paper: {
+                  style: {
+                    width: '20ch',
+                  },
+                },
+              }}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
             >
               <MenuItem component={Link} to={`/profile?username=${username}`} onClick={handleClose}>
                 <ListItemIcon>
-                  <AccountCircle />
+                  <AccountCircle sx={{ color: '#0021A5', mr: 3}}/>
                 </ListItemIcon>
                 <ListItemText>Profile</ListItemText>
               </MenuItem>
               <MenuItem component={Link} to="/uploadItem" onClick={handleClose}>
                 <ListItemIcon>
-                  <Upload />
+                  <Upload sx={{ color: '#0021A5', mr: 3}} />
                 </ListItemIcon>
                 <ListItemText>Selling</ListItemText>
               </MenuItem>
               <MenuItem onClick={handleLogout}>
                 <ListItemIcon>
-                  <Logout />
+                  <Logout sx={{ color: '#0021A5', mr: 3}} />
                 </ListItemIcon>
                 <ListItemText>Logout</ListItemText>
               </MenuItem>

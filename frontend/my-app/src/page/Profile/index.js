@@ -11,6 +11,9 @@ import { request } from '../../utils/request';
 import AppAppBar from "../../components/layout/AppAppBar";
 import { Link, Outlet } from 'react-router-dom';
 import { stringToColor } from '../../utils/stringToColor';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import EditIcon from '@mui/icons-material/Edit';
 
 function Profile() {
   const [searchParams] = useSearchParams();
@@ -29,7 +32,7 @@ function Profile() {
       }
     }
     getProfile();
-    
+
   }, [])
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -39,16 +42,22 @@ function Profile() {
   };
 
   return (
-    <Box >
+    <Box
+      sx={{
+        backgroundColor: '#f4f6f6',
+        minHeight: '100vh',
+        width: '100%',
+      }}
+    >
       <CssBaseline />
       <AppAppBar />
       <Box
         sx={{
           width: '100%',
-          backgroundColor: '#f4f6f6',
+          backgroundColor: '#333',
           py: 4,
           position: 'relative',
-          marginTop: 8
+          marginTop: 8,
         }}
       >
         <Container maxWidth="lg">
@@ -56,7 +65,8 @@ function Profile() {
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: 4
+              gap: 8,
+              ml: 8
             }}
           >
             <Avatar
@@ -69,7 +79,7 @@ function Profile() {
                 fontSize: '3rem'
               }}
             />
-            <Typography variant="h3" component="h1">
+            <Typography variant="h3" component="h1" color='white'>
               {userProfile.username}
             </Typography>
           </Box>
@@ -85,24 +95,27 @@ function Profile() {
                 selected={selectedIndex === 0}
                 onClick={(event) => handleListItemClick(event, 0)}
               >
+                <StarOutlineIcon sx={{ color: '#0021A5', mr: 2}}/>
                 <ListItemText primary="Sellings and Favorites" />
               </ListItemButton>
 
               {editPermission && (
-                <ListItemButton 
+                <ListItemButton
                   component={Link} to="/profile/account"
                   selected={selectedIndex === 1}
                   onClick={(event) => handleListItemClick(event, 1)}
                 >
+                  <ManageAccountsIcon sx={{ color: '#0021A5', mr: 2}}/>
                   <ListItemText primary="Account" />
                 </ListItemButton>
               )}
               {editPermission && (
-                <ListItemButton 
+                <ListItemButton
                   component={Link} to="/profile/updateItem"
                   selected={selectedIndex === 2}
                   onClick={(event) => handleListItemClick(event, 2)}
                 >
+                  <EditIcon sx={{ color: '#0021A5', mr: 2}}/>
                   <ListItemText primary="Edit Products" />
                 </ListItemButton>
               )}
@@ -111,7 +124,14 @@ function Profile() {
 
           {/* right side */}
           <Grid item xs={12} md={9}>
-            <Outlet context={{ userProfile: userProfile }} />
+            <Box
+              sx={{
+                backgroundColor: '#ffffff',
+                minHeight: '100vh',
+              }}
+            >
+              <Outlet context={{ userProfile: userProfile }} />
+            </Box>
           </Grid>
         </Grid>
       </Container>

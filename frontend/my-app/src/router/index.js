@@ -9,6 +9,7 @@ import CategoryPage from "../page/Category"
 import Account from "../page/Account"
 import Favorites from "../page/Favorites"
 import UpdateItems from "../page/UpdateItem"
+import ChnagePassword from "../page/ChangePassword"
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path:'category',
     element: <CategoryPage />
+  },
+  {
+    path:'password',
+    element: <ChnagePassword />
   },
 ])
 
