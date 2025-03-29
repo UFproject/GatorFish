@@ -8,8 +8,9 @@ import Profile from "../page/Profile"
 import CategoryPage from "../page/Category"
 import Account from "../page/Account"
 import Favorites from "../page/Favorites"
-import UpdateItems from "../page/UpdateItem"
+import ManageItem from "../page/ManageItem"
 import ChnagePassword from "../page/ChangePassword"
+import UpdateItem from "../page/UpdateItem"
 
 const router = createBrowserRouter([
   {
@@ -45,8 +46,8 @@ const router = createBrowserRouter([
         element: <Account />
       },
       {
-        path: 'updateItem',
-        element: <UpdateItems />
+        path: 'manageItem',
+        element: <ManageItem />
       }
     ]
   },
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path:'password',
     element: <ChnagePassword />
+  },
+  {
+    path:'updateItem',
+    element: <UpdateItem />
   },
 ])
 
