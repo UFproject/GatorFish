@@ -9,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from 'react-router-dom';
+import { stringToColor } from '../../utils/stringToColor';
 // import imageUrl from '../../assets/images/ball.jpg';
 
 const ProductCard = ({ product }) => {
@@ -24,7 +25,7 @@ const ProductCard = ({ product }) => {
         transition: 'all 0.3s ease-in-out'
       }
     }}>
-      <CardActionArea component={Link} to={`/item?id=${product.Item_id}`} state={{product}}>
+      <CardActionArea component={Link} to={`/item?id=${product.Item_id}`} state={{ product }}>
         <CardMedia
           component="img"
           height="200"
@@ -61,6 +62,15 @@ const ProductCard = ({ product }) => {
 
           {/* Seller Info */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Avatar
+              src="/path/to/user-avatar.jpg"
+              alt={product.Seller_name}
+              sx={{ 
+                width: 24,
+                height: 24,
+                bgcolor: stringToColor(product.Seller_name)
+              }}
+            />
             <Typography variant="body2" color="text.secondary">
               Sold by:
             </Typography>

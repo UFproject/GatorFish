@@ -63,8 +63,6 @@ function SignUp() {
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
 
-
-  const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleSubmit = async (event) => {
     event.preventDefault();
