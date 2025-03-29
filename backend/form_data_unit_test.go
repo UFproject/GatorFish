@@ -369,7 +369,7 @@ func TestUpdateItemController(t *testing.T) {
 			name: "Unauthorized Update Attempt",
 			formData: map[string]string{
 				"item_id":    "42",
-				"seller_jwt": AnnaToken, // JWT 中用户名与 item.Seller_name 不匹配
+				"seller_jwt": AnnaToken, // username in JWT is different from user name in item.Seller_name
 			},
 			wantStatus: http.StatusForbidden,
 		},

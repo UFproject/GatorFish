@@ -128,6 +128,13 @@ func TestLikeControllers(t *testing.T) {
 			wantStatus: http.StatusBadRequest,
 		},
 		{
+			name:       "Add Like - Item already liked",
+			method:     "POST",
+			url:        "/items/AddLike",
+			body:       map[string]interface{}{"username": "Anna", "item_id": 42},
+			wantStatus: http.StatusBadRequest,
+		},
+		{
 			name:       "Remove Like - Valid",
 			method:     "POST",
 			url:        "/items/RemoveLike",
