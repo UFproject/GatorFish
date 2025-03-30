@@ -64,8 +64,7 @@ Tests the `/items/update` endpoint to ensure item updates are handled correctly.
 - Valid updates return `200 OK`.
 - Errors return `400`, `401`, `403`, or `404` based on the cause.
 
-# Backend Document
-APIs for Gator Fish
+# Backend API Document
 
 ## End-point: register
 User register
