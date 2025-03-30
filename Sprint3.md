@@ -1,4 +1,70 @@
-# Project: GF
+
+# Backend Unit Testing Documentation
+
+## Introduction
+Sprint 3 unit test document describes the unit tests implemented for the backend services. The tests ensure that key functionalities operate correctly, including getting user profile, changing password, updating item, and item like management.
+
+## Test Cases
+
+### 1. Profile Controller Test (`TestProfileController`)
+#### Description
+Tests the `/auth/profile` endpoint for handling profile requests.
+#### Test Scenarios
+- **Valid Profile Request**: Valid username returns profile data.
+- **Missing Username**: Missing input leads to `400 Bad Request`.
+- **Invalid JSON Format**: Malformed JSON request returns `400 Bad Request`.
+#### Expected Results
+- Proper requests return `200 OK`.
+- Malformed or incomplete requests return `400 Bad Request`.
+
+---
+
+### 2. Change Password Controller Test (`TestChangePasswordController`)
+#### Description
+Tests the `/auth/change` endpoint for password change functionality.
+#### Test Scenarios
+- **Valid Password Change**: Correct old password and fields change the password successfully.
+- **Wrong Old Password**: Incorrect old password returns `401 Unauthorized`.
+- **User Not Found**: Nonexistent username returns `401 Unauthorized`.
+- **Missing Fields**: Missing required fields returns `400 Bad Request`.
+#### Expected Results
+- Successful changes return `200 OK`.
+- Invalid or incomplete data returns proper error status.
+
+---
+
+### 3. Like Controllers Test (`TestLikeControllers`)
+#### Description
+Tests the endpoints for liking and unliking items.
+#### Test Scenarios
+- **Add Like - Valid**
+- **Add Like - Missing Username**
+- **Add Like - Invalid Item ID**
+- **Add Like - Item already liked**
+- **Remove Like - Valid**
+- **Remove Like - Like Not Exist**
+- **Remove Like - Missing Item ID**
+#### Expected Results
+- Valid like/unlike actions return `200 OK`.
+- Invalid or duplicate actions return `400 Bad Request`.
+
+---
+
+### 4. Update Item Controller Test (`TestUpdateItemController`)
+#### Description
+Tests the `/items/update` endpoint to ensure item updates are handled correctly.
+#### Test Scenarios
+- **Valid Update Request**
+- **Missing item_id**
+- **Invalid price format**
+- **Invalid JWT**
+- **Item Not Found**
+- **Unauthorized Update Attempt**
+#### Expected Results
+- Valid updates return `200 OK`.
+- Errors return `400`, `401`, `403`, or `404` based on the cause.
+
+# Backend Document
 APIs for Gator Fish
 
 ## End-point: register
