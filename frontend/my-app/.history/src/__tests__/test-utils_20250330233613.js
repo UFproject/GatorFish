@@ -9,15 +9,13 @@ import '../setupMocks';
 // Mock BrowserRouter
 const MockRouter = ({ children }) => <div>{children}</div>;
 
-// Mock Link component with forwardRef to fix Material-UI warnings
-const MockLink = React.forwardRef(({ to, children, ...props }, ref) => (
-    <a href={to} ref={ref} {...props}>{children}</a>
-));
+// Mock Link component
+const MockLink = ({ to, children }) => <a href={to}>{children}</a>;
 
 // Mock react-router-dom
 jest.mock('react-router-dom', () => ({
     BrowserRouter: ({ children }) => <MockRouter>{children}</MockRouter>,
-    Link: MockLink,
+    Link: ({ to, children }) => <MockLink to={to}>{children}</MockLink>,
     useNavigate: () => jest.fn(),
     useLocation: () => ({ state: null, pathname: '/' })
 }));
@@ -53,4 +51,4 @@ describe('test-utils', () => {
     test('is a utility module, not a test file', () => {
         expect(true).toBe(true);
     });
-});
+}); 

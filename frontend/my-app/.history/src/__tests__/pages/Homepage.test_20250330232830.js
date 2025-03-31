@@ -10,12 +10,22 @@ jest.mock('../../utils/request', () => ({
     }
 }));
 
-// See test-utils.js for how react-router-dom is being mocked
-// We'll reuse that mock for all tests
+// Mock react-router-dom
+jest.mock('react-router-dom', () => {
+    const originalModule = jest.requireActual('react-router-dom');
+    return {
+        ...originalModule,
+        useLocation: jest.fn(),
+        useNavigate: jest.fn()
+    };
+});
 
 describe('Homepage', () => {
     beforeEach(() => {
         jest.clearAllMocks();
+
+        // Default useLocation mock implementation
+        require('react-router-dom').useLocation.mockReturnValue({ state: null, pathname: '/' });
 
         // Set up mock responses for all three API calls
         request.post.mockImplementation((url, data) => {
@@ -108,5 +118,19 @@ describe('Homepage', () => {
             expect(screen.getByText('Digital Item 1')).toBeInTheDocument();
             expect(screen.getByText('Baby Item 1')).toBeInTheDocument();
         });
+    });
+
+    test('shows login success notification when coming from login page', async () => {
+        // Set up the mock for useLocation to simulate coming from login page
+        require('react-router-dom').useLocation.mockReturnValue({
+            state: { fromLogin: true },
+            pathname: '/'
+        });
+
+        // Render with the mocked location
+        render(<Homepage />);
+
+        // Verify the snackbar appears
+        expect(screen.getByText('Login Successful!')).toBeInTheDocument();
     });
 }); 

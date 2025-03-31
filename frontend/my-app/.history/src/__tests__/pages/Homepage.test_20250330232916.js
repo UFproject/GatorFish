@@ -11,11 +11,14 @@ jest.mock('../../utils/request', () => ({
 }));
 
 // See test-utils.js for how react-router-dom is being mocked
-// We'll reuse that mock for all tests
+// We'll reuse that mock and modify it for each test as needed
 
 describe('Homepage', () => {
     beforeEach(() => {
         jest.clearAllMocks();
+
+        // Reset the react-router-dom mock
+        jest.resetModules();
 
         // Set up mock responses for all three API calls
         request.post.mockImplementation((url, data) => {
@@ -108,5 +111,24 @@ describe('Homepage', () => {
             expect(screen.getByText('Digital Item 1')).toBeInTheDocument();
             expect(screen.getByText('Baby Item 1')).toBeInTheDocument();
         });
+    });
+
+    test('shows login success notification when coming from login page', async () => {
+        // Mock react-router-dom directly with the login state
+        jest.doMock('react-router-dom', () => ({
+            BrowserRouter: ({ children }) => <div>{children}</div>,
+            Link: ({ to, children }) => <a href={to}>{children}</a>,
+            useNavigate: () => jest.fn(),
+            useLocation: () => ({ state: { fromLogin: true }, pathname: '/' })
+        }), { virtual: true });
+
+        // Need to require Homepage again to use the updated mock
+        const HomepageWithMock = require('../../page/Homepage').default;
+
+        // Render the component with login simulation
+        render(<HomepageWithMock />);
+
+        // Verify the snackbar appears
+        expect(screen.getByText('Login Successful!')).toBeInTheDocument();
     });
 }); 

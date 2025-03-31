@@ -10,13 +10,23 @@ jest.mock('../../utils/request', () => ({
     }
 }));
 
-// See test-utils.js for how react-router-dom is being mocked
-// We'll reuse that mock for all tests
+// Mock react-router-dom
+jest.mock('react-router-dom', () => {
+    const originalModule = jest.requireActual('react-router-dom');
+    return {
+        ...originalModule,
+        useLocation: jest.fn(),
+        useNavigate: jest.fn()
+    };
+});
 
 describe('Homepage', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-
+        
+        // Default useLocation mock implementation
+        require('react-router-dom').useLocation.mockReturnValue({ state: null, pathname: '/' });
+        
         // Set up mock responses for all three API calls
         request.post.mockImplementation((url, data) => {
             if (url === '/items/Category' && data.category_name === 'Phones/Digital/Computers') {
@@ -62,10 +72,10 @@ describe('Homepage', () => {
         await act(async () => {
             render(<Homepage />);
         });
-
+        
         // Use more specific selectors for section headings
         const sectionHeadings = screen.getAllByRole('heading', { level: 2 });
-
+        
         // Check that each expected section title exists in the headings
         const sectionTitles = sectionHeadings.map(heading => heading.textContent);
         expect(sectionTitles).toContain('Phones/Digital/Computers');
@@ -89,13 +99,13 @@ describe('Homepage', () => {
             "start": 0,
             "end": 10
         });
-
+        
         expect(request.post).toHaveBeenCalledWith('/items/Category', {
             "category_name": "Fashion/Bags/Sports",
             "start": 0,
             "end": 4
         });
-
+        
         expect(request.post).toHaveBeenCalledWith('/items/Category', {
             "category_name": "Baby/Beauty/Personal Care",
             "start": 0,
@@ -108,5 +118,19 @@ describe('Homepage', () => {
             expect(screen.getByText('Digital Item 1')).toBeInTheDocument();
             expect(screen.getByText('Baby Item 1')).toBeInTheDocument();
         });
+    });
+
+    test('shows login success notification when coming from login page', async () => {
+        // Set up the mock for useLocation to simulate coming from login page
+        require('react-router-dom').useLocation.mockReturnValue({
+            state: { fromLogin: true },
+            pathname: '/'
+        });
+
+        // Render with the mocked location
+        render(<Homepage />);
+        
+        // Verify the snackbar appears
+        expect(screen.getByText('Login Successful!')).toBeInTheDocument();
     });
 }); 
