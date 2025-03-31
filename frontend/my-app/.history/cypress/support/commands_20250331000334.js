@@ -3,11 +3,16 @@
 // Login command for reuse
 Cypress.Commands.add('login', (username = Cypress.env('TEST_USERNAME'), password = Cypress.env('TEST_PASSWORD')) => {
     cy.visit('/login');
-    cy.get('input[placeholder="username"], input[name="username"]').type(username);
-    cy.get('input[type="password"], input[name="password"]').type(password);
-    cy.get('button').contains(/Sign in|Login|Submit/).click();
+    cy.get('input[placeholder="username"]').type(username);
+    cy.get('input[type="password"]').type(password);
+    cy.contains('button', 'Sign in').click();
     // Wait for redirect to confirm login success
     cy.url().should('not.include', '/login');
+});
+
+// Seller login command
+Cypress.Commands.add('loginAsSeller', () => {
+    cy.login(Cypress.env('SELLER_USERNAME'), Cypress.env('SELLER_PASSWORD'));
 });
 
 // Add data-testid attributes to elements for more reliable selection
@@ -25,17 +30,8 @@ Cypress.Commands.add('waitForLoadingToFinish', () => {
     });
 });
 
-// Skip waiting for API responses
-Cypress.Commands.add('skipWaitingFor', (aliasName) => {
-    cy.on('command:retry', (msg) => {
-        if (typeof msg === 'string' && msg.includes(`cy.wait() timed out waiting for the 1st request to the route: \`${aliasName}\``)) {
-            return false; // Skip waiting for this route
-        }
-    });
-});
-
-// Mock all product API responses - but make them optional
-Cypress.Commands.add('mockProductAPIs', (skipWaiting = true) => {
+// Mock all product API responses
+Cypress.Commands.add('mockProductAPIs', () => {
     if (!Cypress.env('MOCK_API')) return;
 
     // Mock fetch all products
@@ -119,18 +115,10 @@ Cypress.Commands.add('mockProductAPIs', (skipWaiting = true) => {
             sellerID: 123
         }]
     }).as('getCategoryProducts');
-
-    if (skipWaiting) {
-        cy.skipWaitingFor('getProducts');
-        cy.skipWaitingFor('getProductById');
-        cy.skipWaitingFor('addToFavorites');
-        cy.skipWaitingFor('getFavorites');
-        cy.skipWaitingFor('getCategoryProducts');
-    }
 });
 
 // Mock auth APIs
-Cypress.Commands.add('mockAuthAPIs', (skipWaiting = true) => {
+Cypress.Commands.add('mockAuthAPIs', () => {
     if (!Cypress.env('MOCK_API')) return;
 
     // Mock login API
@@ -151,9 +139,4 @@ Cypress.Commands.add('mockAuthAPIs', (skipWaiting = true) => {
         statusCode: 200,
         body: { message: 'Password changed successfully' }
     }).as('changePasswordRequest');
-
-    if (skipWaiting) {
-        cy.skipWaitingFor('loginRequest');
-        cy.skipWaitingFor('changePasswordRequest');
-    }
 }); 

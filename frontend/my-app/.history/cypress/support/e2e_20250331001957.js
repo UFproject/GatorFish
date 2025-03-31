@@ -4,10 +4,9 @@ import './commands';
 // Alternatively you can use CommonJS syntax:
 // require('./commands') 
 
-// Disable waiting for API responses globally but safely
+// Disable waiting for API responses globally
 Cypress.on('command:retry', (msg) => {
-    // Make sure msg is a string before using includes
-    if (typeof msg === 'string' && msg.includes('cy.wait() timed out waiting for the 1st request to the route')) {
+    if (msg.includes(`cy.wait() timed out waiting for the 1st request to the route`)) {
         return false; // Skip waiting for all routes
     }
 });
@@ -30,7 +29,7 @@ beforeEach(() => {
 
     // Add resilience to non-HTML responses from page loads
     cy.on('fail', (err) => {
-        if (typeof err.message === 'string' && err.message.includes('content-type') && err.message.includes('application/json')) {
+        if (err.message.includes('content-type') && err.message.includes('application/json')) {
             // If page returns JSON instead of HTML, log and continue
             cy.log('Page returned JSON instead of HTML - continuing test');
             return false;

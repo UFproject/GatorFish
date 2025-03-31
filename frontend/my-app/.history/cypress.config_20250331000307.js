@@ -8,9 +8,9 @@ module.exports = defineConfig({
         },
     },
     env: {
-        // Define test credentials (updated with correct credentials)
-        TEST_USERNAME: 'test',
-        TEST_PASSWORD: '114514',
+        // Define test credentials here
+        TEST_USERNAME: 'testuser',
+        TEST_PASSWORD: 'password123',
         SELLER_USERNAME: 'selleruser',
         SELLER_PASSWORD: 'password123',
         // API Mocking flags
@@ -22,8 +22,6 @@ module.exports = defineConfig({
     video: false,
     // Increase default timeout for tests
     defaultCommandTimeout: 10000,
-    // Disable waiting for API requests that may never occur
-    waitForAnimations: false,
     // Add retry ability
     retries: {
         runMode: 1,

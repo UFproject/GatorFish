@@ -28,7 +28,7 @@ Cypress.Commands.add('waitForLoadingToFinish', () => {
 // Skip waiting for API responses
 Cypress.Commands.add('skipWaitingFor', (aliasName) => {
     cy.on('command:retry', (msg) => {
-        if (typeof msg === 'string' && msg.includes(`cy.wait() timed out waiting for the 1st request to the route: \`${aliasName}\``)) {
+        if (msg.includes(`cy.wait() timed out waiting for the 1st request to the route: \`${aliasName}\``)) {
             return false; // Skip waiting for this route
         }
     });
