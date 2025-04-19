@@ -110,11 +110,6 @@ function UpdateItem() {
           <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#0021A5' }}>
             Edit Item
           </Typography>
-          <img
-            image={`${BASE_URL}${product.Pic}`}
-            alt="img"
-            style={{ maxWidth: '200px', maxHeight: '200px' }}
-          />
 
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
             <TextField

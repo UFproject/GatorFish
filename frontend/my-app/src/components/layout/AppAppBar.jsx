@@ -23,6 +23,9 @@ import Logout from '@mui/icons-material/Logout';
 import { useDispatch } from 'react-redux'
 import { clearUserInfo } from '../../store/modules/user'
 import { stringToColor } from '../../utils/stringToColor'
+import { useState } from "react";
+import { request } from '../../utils/request';
+import { useNavigate } from 'react-router-dom';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -53,7 +56,8 @@ const SearchBar = styled(TextField)(({ theme }) => ({
 const AppAppBar = () => {
   const token = localStorage.getItem('token_key')
   const username = localStorage.getItem('username')
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -69,6 +73,21 @@ const AppAppBar = () => {
     setAnchorEl(null)
   };
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = async (event) => {
+    event.preventDefault();
+    
+    if (searchTerm) {
+      try {
+        const res = await request.post('/items/Search', {"query": searchTerm});
+        navigate('/search-results', { state: { res } });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#0021A5', boxShadow: 1 }}>
       <Container maxWidth="lg">
@@ -78,23 +97,34 @@ const AppAppBar = () => {
               GATOR FISH MARKET
             </Typography>
           </Box>
-          
-          <SearchBar
-            placeholder="Search for anything"
-            variant="outlined"
-            size="small"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: '#0021A5' }}/>
-                </InputAdornment>
-              ),
-            }}
-          />
-          
+          <Box>
+            <SearchBar
+              placeholder="Search for anything"
+              variant="outlined"
+              size="small"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: '#0021A5' }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <IconButton
+              onClick={handleSearch}
+              aria-label="search"
+              color="inherit"
+            >
+              <SearchIcon />
+            </IconButton>
+          </Box>
+
+
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            {!token && <Button 
-              sx={{ 
+            {!token && <Button
+              sx={{
                 color: 'white',
                 '&:hover': {
                   color: '#FA4616'
@@ -104,16 +134,16 @@ const AppAppBar = () => {
             >
               Sign In
             </Button>}
-            {token && 
-            <Avatar
-              src="/path/to/user-avatar.jpg"
-              alt={username}
-              sx={{ width: 56, height: 56, cursor: 'pointer', bgcolor: stringToColor(username), fontSize: '2rem'}}
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-            />}
+            {token &&
+              <Avatar
+                src="/path/to/user-avatar.jpg"
+                alt={username}
+                sx={{ width: 56, height: 56, cursor: 'pointer', bgcolor: stringToColor(username), fontSize: '2rem' }}
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+              />}
             <Menu
               id="basic-menu"
               anchorEl={anchorEl}
@@ -140,25 +170,25 @@ const AppAppBar = () => {
             >
               <MenuItem component={Link} to={`/profile?username=${username}`} onClick={handleClose}>
                 <ListItemIcon>
-                  <AccountCircle sx={{ color: '#0021A5', mr: 3}}/>
+                  <AccountCircle sx={{ color: '#0021A5', mr: 3 }} />
                 </ListItemIcon>
                 <ListItemText>Profile</ListItemText>
               </MenuItem>
               <MenuItem component={Link} to="/uploadItem" onClick={handleClose}>
                 <ListItemIcon>
-                  <Upload sx={{ color: '#0021A5', mr: 3}} />
+                  <Upload sx={{ color: '#0021A5', mr: 3 }} />
                 </ListItemIcon>
                 <ListItemText>Selling</ListItemText>
               </MenuItem>
               <MenuItem onClick={handleLogout}>
                 <ListItemIcon>
-                  <Logout sx={{ color: '#0021A5', mr: 3}} />
+                  <Logout sx={{ color: '#0021A5', mr: 3 }} />
                 </ListItemIcon>
                 <ListItemText>Logout</ListItemText>
               </MenuItem>
             </Menu>
-            <IconButton 
-              sx={{ 
+            <IconButton
+              sx={{
                 color: 'white',
                 '&:hover': {
                   color: '#FA4616'

@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 import AppBar from '@mui/material/AppBar'
 import { useNavigate } from 'react-router-dom'
-import { useState} from "react"
+import { useState } from "react"
 import Snackbar from '@mui/material/Snackbar'
 import Link from '@mui/material/Link'
 import { request } from '../../utils/request'
@@ -62,25 +62,58 @@ function SignUp() {
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    phone: '',
+    email: ''
+  });
+
+  const [errors, setErrors] = useState({
+    username: false,
+    password: false,
+    phone: false,
+    email: false
+  });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const form = {
-      "Username": data.get('username'),
-      "Password": data.get('password'),
-      "Phone": data.get('phone'),
-      "Email": data.get('email')
-    }
-    try {
-      const res = await request.post('/auth/register', form)
-      navigate('/login', {state: { fromRegister: true }})
-    } catch (error) {
-      setAlertMessage(error.response.data.error)
-      setOpenSnackbar(true)
+
+    const hasError = {
+      username: !formData.username,
+      password: !formData.password,
+      phone: !formData.phone,
+      email: !formData.email
+    };
+
+    setErrors(hasError);
+    
+    if (!Object.values(hasError).some(Boolean)) {
+      const data = new FormData(event.currentTarget);
+      const form = {
+        "Username": data.get('username'),
+        "Password": data.get('password'),
+        "Phone": data.get('phone'),
+        "Email": data.get('email')
+      }
+      try {
+        const res = await request.post('/auth/register', form)
+        navigate('/login', { state: { fromRegister: true } })
+      } catch (error) {
+        setAlertMessage(error.response.data.error)
+        setOpenSnackbar(true)
+      }
     }
   }
-  
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: false }));
+  };
+
   const handleClose = () => {
     setOpenSnackbar(false)
   }
@@ -94,16 +127,16 @@ function SignUp() {
         message={alertMessage}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       />
-      <AppBar position="fixed" sx={{ backgroundColor: '#0021A5', boxShadow: 1, padding: '19px 12px',}}>
+      <AppBar position="fixed" sx={{ backgroundColor: '#0021A5', boxShadow: 1, padding: '19px 12px', }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Button sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor: '#0021A5'}} href='/'>
+          <Button sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor: '#0021A5' }} href='/'>
             <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#FA4616' }}>
               GATOR FISH MARKET
             </Typography>
           </Button>
         </Box>
       </AppBar>
-      
+
       <SignInContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           <Typography
@@ -114,89 +147,101 @@ function SignUp() {
             Sign up
           </Typography>
           <Box
-              component="form"
-              onSubmit={handleSubmit}
-              noValidate
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-                gap: 2,
-              }}
-            >
-              <FormControl>
-                <FormLabel htmlFor="username">Username</FormLabel>
-                <TextField
-                  id="username"
-                  type="username"
-                  name="username"
-                  placeholder="username"
-                  autoFocus
-                  required
-                  fullWidth
-                  variant="outlined"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <TextField
-                  name="password"
-                  placeholder="••••••"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  autoFocus
-                  required
-                  fullWidth
-                  variant="outlined"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="phone">Phone Number</FormLabel>
-                <TextField
-                  id="phone"
-                  type="phone"
-                  name="phone"
-                  placeholder="phone number"
-                  autoFocus
-                  required
-                  fullWidth
-                  variant="outlined"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <TextField
-                  name="email"
-                  placeholder="email"
-                  type="email"
-                  id="email"
-                  autoFocus
-                  required
-                  fullWidth
-                  variant="outlined"
-                />
-              </FormControl>
-              <Button
-                type="submit"
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+              gap: 2,
+            }}
+          >
+            <FormControl>
+              <FormLabel htmlFor="username">Username</FormLabel>
+              <TextField
+                id="username"
+                type="username"
+                name="username"
+                placeholder="username"
+                autoFocus
+                required
                 fullWidth
-                variant="contained"
-                sx={{ backgroundColor: '#0021A5'}}
+                variant="outlined"
+                value={formData.name}
+                onChange={handleChange}
+                error={errors.name}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <TextField
+                name="password"
+                placeholder="••••••"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                autoFocus
+                required
+                fullWidth
+                variant="outlined"
+                value={formData.password}
+                onChange={handleChange}
+                error={errors.password}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="phone">Phone Number</FormLabel>
+              <TextField
+                id="phone"
+                type="phone"
+                name="phone"
+                placeholder="phone number"
+                autoFocus
+                required
+                fullWidth
+                variant="outlined"
+                value={formData.phone}
+                onChange={handleChange}
+                error={errors.phone}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="email">Email</FormLabel>
+              <TextField
+                name="email"
+                placeholder="email"
+                type="email"
+                id="email"
+                autoFocus
+                required
+                fullWidth
+                variant="outlined"
+                value={formData.email}
+                onChange={handleChange}
+                error={errors.email}
+              />
+            </FormControl>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ backgroundColor: '#0021A5' }}
+            >
+              Sign up
+            </Button>
+            <Typography sx={{ textAlign: 'center' }}>
+              Already have an account?{' '}
+              <Link
+                href="/login"
+                variant="body2"
+                sx={{ alignSelf: 'center' }}
               >
-                Sign up
-              </Button>
-              <Typography sx={{ textAlign: 'center' }}>
-                Already have an account?{' '}
-                <Link
-                  href="/login"
-                  variant="body2"
-                  sx={{ alignSelf: 'center' }}
-                >
-                  Sign in
-                </Link>
-              </Typography>
-              
-            </Box>
+                Sign in
+              </Link>
+            </Typography>
+
+          </Box>
         </Card>
       </SignInContainer>
     </Box>

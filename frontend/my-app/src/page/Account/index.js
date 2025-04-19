@@ -1,6 +1,9 @@
 import { Box, Grid, Typography, Link } from '@mui/material';
+import { useOutletContext } from 'react-router-dom';
 
 function Account() {
+  const { userProfile } = useOutletContext();
+
   return (
     <Box
       sx={{
@@ -22,7 +25,7 @@ function Account() {
             </Typography>
           </Grid>
           <Grid item xs={9}>
-            <Typography variant="body1">test</Typography>
+            <Typography variant="body1">{userProfile.username}</Typography>
           </Grid>
         </Grid>
 
@@ -32,7 +35,35 @@ function Account() {
         }}>
           <Grid item xs={3}>
             <Typography variant="body1" sx={{ textAlign: "left" }}>
-              Password
+              Email:
+            </Typography>
+          </Grid>
+          <Grid item xs={9}>
+            <Typography variant="body1">{userProfile.email}</Typography>
+          </Grid>
+        </Grid>
+
+        <Grid item container alignItems="center" sx={{
+          pb: 1,
+          borderBottom: '1px solid #ccc'
+        }}>
+          <Grid item xs={3}>
+            <Typography variant="body1" sx={{ textAlign: "left" }}>
+              Phone:
+            </Typography>
+          </Grid>
+          <Grid item xs={9}>
+            <Typography variant="body1">{userProfile.phone}</Typography>
+          </Grid>
+        </Grid>
+
+        <Grid item container alignItems="center" sx={{
+          pb: 1,
+          borderBottom: '1px solid #ccc'
+        }}>
+          <Grid item xs={3}>
+            <Typography variant="body1" sx={{ textAlign: "left" }}>
+              Password:
             </Typography>
           </Grid>
           <Grid item xs={9}>

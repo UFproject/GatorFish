@@ -11,6 +11,7 @@ import Favorites from "../page/Favorites"
 import ManageItem from "../page/ManageItem"
 import ChnagePassword from "../page/ChangePassword"
 import UpdateItem from "../page/UpdateItem"
+import SearchResult from "../page/Search"
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
   {
     path:'updateItem',
     element: <UpdateItem />
+  },
+  {
+    path:'search-results',
+    element: <SearchResult />
   },
 ])
 

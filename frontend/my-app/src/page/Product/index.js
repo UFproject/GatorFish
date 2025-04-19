@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container, Grid, Typography, Button, Avatar, Snackbar } from '@mui/material';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Box, Container, Grid, Typography, Button, Avatar, Snackbar, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import AppAppBar from '../../components/layout/AppAppBar';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -14,25 +12,17 @@ function Product() {
   const productId = new URLSearchParams(location.search).get('id');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const username = localStorage.getItem('username');
+  const sellerName = product.Seller_name;
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState("");
-  // console.log(location)
+  const [open, setOpen] = useState(false);
 
-  // useEffect(() => {
-  //   async function getProduct() {
-  //     try {
-  //       // const res = await axios.get(`http://localhost:3004/item/${productId}`);
-  //       const res = await axios.get(`http://localhost:3004/item/1`);
-  //       setProduct(res.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   if (productId) {
-  //     getProduct();
-  //   }
-  // }, [productId]);
+  const [sellerInfo, setSellerInfo] = useState({
+    username: '',
+    phone: '',
+    email: ''
+  });
 
   if (!product) {
     return <div>Loading...</div>;
@@ -56,6 +46,34 @@ function Product() {
   const handleClose = () => {
     setOpenSnackbar(false);
   }
+
+  // Dialog
+
+  async function getProfile() {
+    try {
+      const res = await request.post('/auth/profile', { username: sellerName });
+      setSellerInfo({
+        username: res.username,
+        phone: res.phone,
+        email: res.email
+      })
+      
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+
+  const handleClickOpen = () => {
+    if (sellerInfo.username == ''){
+      getProfile();
+    }
+    setOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpen(false);
+  };
 
 
   return (
@@ -159,6 +177,7 @@ function Product() {
                     },
                     width: 'calc(50% - 4px)'
                   }}
+                  onClick={handleClickOpen}
                 >
                   Contact Seller
                 </Button>
@@ -180,6 +199,61 @@ function Product() {
           </Grid>
         </Grid>
       </Container>
+      <Dialog
+        open={open}
+        onClose={handleDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Seller Info"}
+        </DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item container alignItems="center" sx={{
+              pb: 1
+            }}>
+              <Grid item xs={3}>
+                <Typography variant="body1" sx={{ textAlign: "left" }}>
+                  Name:
+                </Typography>
+              </Grid>
+              <Grid item xs={9}>
+                <Typography variant="body1">{sellerInfo.username}</Typography>
+              </Grid>
+            </Grid>
+
+            <Grid item container alignItems="center" sx={{
+              pb: 1
+            }}>
+              <Grid item xs={3}>
+                <Typography variant="body1" sx={{ textAlign: "left" }}>
+                  Email:
+                </Typography>
+              </Grid>
+              <Grid item xs={9}>
+                <Typography variant="body1">{sellerInfo.email}</Typography>
+              </Grid>
+            </Grid>
+
+            <Grid item container alignItems="center" sx={{
+              pb: 1
+            }}>
+              <Grid item xs={3}>
+                <Typography variant="body1" sx={{ textAlign: "left" }}>
+                  Phone:
+                </Typography>
+              </Grid>
+              <Grid item xs={9}>
+                <Typography variant="body1">{sellerInfo.phone}</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
