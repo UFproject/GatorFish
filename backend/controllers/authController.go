@@ -121,10 +121,23 @@ func Profile(ctx *gin.Context) {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
+	} // Fetch user info
+	var user struct {
+		Phone string `json:"phone"`
+		Email string `json:"email"`
+	}
+	if err := global.Db.Table("users").
+		Select("phone, email").
+		Where("username = ?", requestBody.Username).
+		Scan(&user).Error; err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"username":     requestBody.Username,
+		"phone":        user.Phone,
+		"email":        user.Email,
 		"posted_items": postedItems,
 		"liked_items":  likedItems,
 	})
