@@ -284,30 +284,8 @@ func Search(ctx *gin.Context) {
 		return
 	}
 
-	// Pad with random items if less than 4
-	// if len(items) < 4 {
-	// 	var extraItems []models.Item
-	// 	var ids []uint
-	// 	for _, item := range items {
-	// 		ids = append(ids, item.ID)
-	// 	}
-
-	// 	db.
-	// 		Where("id NOT IN ?", ids).
-	// 		Order("RANDOM()").
-	// 		Limit(4 - len(items)).
-	// 		Find(&extraItems)
-
-	// 	items = append(items, extraItems...)
-	// }
-
-	// // Limit to first 4 items
-	// if len(items) > 4 {
-	// 	items = items[:4]
-	// }
-
-	// ctx.JSON(http.StatusOK, gin.H{
-	// 	"query": req.Query,
-	// 	"items": items,
-	// })
+	ctx.JSON(http.StatusOK, gin.H{
+		"query": req.Query,
+		"items": items,
+	})
 }

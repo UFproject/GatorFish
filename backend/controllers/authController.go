@@ -19,6 +19,11 @@ func Register(ctx *gin.Context) {
 
 	hashedPwd, err := utils.HashPassword(user.Password)
 
+	if len(user.Username) < 1 || len(user.Email) < 1 || len(user.Phone) < 1 || len(user.Password) < 5 {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "format err"})
+		return
+	}
+
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
