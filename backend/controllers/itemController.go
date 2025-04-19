@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -256,4 +257,57 @@ func UpdateItem(ctx *gin.Context) {
 		"message": "Item updated successfully",
 		"updates": updateData,
 	})
+}
+
+func Search(ctx *gin.Context) {
+	type SearchRequest struct {
+		Query string `json:"query"`
+	}
+
+	var req SearchRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON payload"})
+		return
+	}
+
+	if req.Query == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "query is required"})
+		return
+	}
+
+	db := global.Db
+	q := "%" + strings.ToLower(req.Query) + "%"
+
+	var items []models.Item
+	if err := db.Where("LOWER(title) LIKE ? OR LOWER(description) LIKE ?", q, q).Find(&items).Error; err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Pad with random items if less than 4
+	// if len(items) < 4 {
+	// 	var extraItems []models.Item
+	// 	var ids []uint
+	// 	for _, item := range items {
+	// 		ids = append(ids, item.ID)
+	// 	}
+
+	// 	db.
+	// 		Where("id NOT IN ?", ids).
+	// 		Order("RANDOM()").
+	// 		Limit(4 - len(items)).
+	// 		Find(&extraItems)
+
+	// 	items = append(items, extraItems...)
+	// }
+
+	// // Limit to first 4 items
+	// if len(items) > 4 {
+	// 	items = items[:4]
+	// }
+
+	// ctx.JSON(http.StatusOK, gin.H{
+	// 	"query": req.Query,
+	// 	"items": items,
+	// })
 }

@@ -3,7 +3,7 @@ app:
   port: :8080
 
 database:
-  dsn: Alin:Alin114514@@tcp(35.172.221.61:3306)/GatorFish?charset=utf8mb4&parseTime=True&loc=Local
+  dsn: Alin:Alin114514@@tcp(3.93.59.122:3306)/GatorFish?charset=utf8mb4&parseTime=True&loc=Local
   MaxIdleConns: 10
   MaxOpenCons: 114
 

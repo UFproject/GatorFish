@@ -39,6 +39,7 @@ func SetupRouter() *gin.Engine {
 		items.POST("/update", controllers.UpdateItem)
 		items.POST("/AddLike", controllers.AddLike)
 		items.POST("/RemoveLike", controllers.RemoveLike)
+		items.POST("/Search", controllers.Search)
 	}
 
 	behavior := r.Group("/behavior")
