@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '../../../__tests__/test-utils';
+import { render, screen, fireEvent, waitFor } from '../../../__tests__/test-utils';
 import AppAppBar from '../../../components/layout/AppAppBar';
 import { clearUserInfo } from '../../../store/modules/user';
 
@@ -66,5 +66,57 @@ describe('AppAppBar', () => {
         render(<AppAppBar />);
 
         expect(screen.getByPlaceholderText('Search for anything')).toBeInTheDocument();
+    });
+
+    // Test search functionality
+    test('handles search submission correctly', async () => {
+        const mockNavigate = jest.fn();
+        jest.spyOn(require('react-router-dom'), 'useNavigate').mockImplementation(() => mockNavigate);
+
+        // Mock the request.post function
+        const mockRequest = {
+            post: jest.fn().mockResolvedValue({ items: [] })
+        };
+        jest.spyOn(require('../../utils/request'), 'request').mockImplementation(() => mockRequest);
+
+        render(<AppAppBar />);
+
+        // Find the search input and type something
+        const searchInput = screen.getByPlaceholderText('Search for anything');
+        fireEvent.change(searchInput, { target: { value: 'test product' } });
+
+        // Find and click the search button
+        const searchButton = screen.getByRole('button', { name: /search/i });
+        fireEvent.click(searchButton);
+
+        // Verify the API was called with correct parameters
+        await waitFor(() => {
+            expect(mockRequest.post).toHaveBeenCalledWith('/items/Search', { query: 'test product' });
+        });
+
+        // Verify navigation occurred
+        expect(mockNavigate).toHaveBeenCalledWith('/search-results', { state: { res: { items: [] } } });
+    });
+
+    test('search input updates state correctly', () => {
+        render(<AppAppBar />);
+
+        const searchInput = screen.getByPlaceholderText('Search for anything');
+        fireEvent.change(searchInput, { target: { value: 'test query' } });
+
+        expect(searchInput.value).toBe('test query');
+    });
+
+    test('search bar has correct styling', () => {
+        render(<AppAppBar />);
+
+        const searchInput = screen.getByPlaceholderText('Search for anything');
+        const searchContainer = searchInput.closest('.MuiOutlinedInput-root');
+
+        expect(searchContainer).toHaveStyle({
+            backgroundColor: 'white',
+            borderRadius: '20px',
+            width: '400px'
+        });
     });
 }); 

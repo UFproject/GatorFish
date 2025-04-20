@@ -12,11 +12,6 @@ function Product() {
   const productId = new URLSearchParams(location.search).get('id');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const username = localStorage.getItem('username');
-
-  if (!product) {
-    return <div>Loading...</div>;
-  }
-
   const sellerName = product.Seller_name;
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -28,6 +23,10 @@ function Product() {
     phone: '',
     email: ''
   });
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   const handleLiked = async () => {
     try {
@@ -58,7 +57,7 @@ function Product() {
         phone: res.phone,
         email: res.email
       })
-
+      
     } catch (error) {
       console.error(error)
     }
@@ -66,7 +65,7 @@ function Product() {
 
 
   const handleClickOpen = () => {
-    if (sellerInfo.username == '') {
+    if (sellerInfo.username == ''){
       getProfile();
     }
     setOpen(true);

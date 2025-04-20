@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import Product from '../../page/Product';
+import { useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '../../store/modules/user';
@@ -18,10 +20,10 @@ jest.mock('react-router-dom', () => ({
     Link: ({ children, to }) => <a href={to}>{children}</a>
 }));
 
-// Mock the AppAppBar component which uses useNavigate
+// Mock AppAppBar component to avoid useNavigate issues
 jest.mock('../../components/layout/AppAppBar', () => {
     return function MockAppAppBar() {
-        return <div data-testid="mock-appbar">App Bar</div>;
+        return <div data-testid="mock-app-bar">App Bar</div>;
     };
 });
 
@@ -44,9 +46,6 @@ Object.defineProperty(window, 'localStorage', {
 
 // Set environment variable
 process.env.REACT_APP_BASE_URL = 'http://test-server.com';
-
-// Import the Product component
-import Product from '../../page/Product';
 
 // Create a wrapper with Redux Provider
 const renderWithRedux = (ui) => {

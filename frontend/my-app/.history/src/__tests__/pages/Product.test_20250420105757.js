@@ -13,15 +13,31 @@ const store = configureStore({
 });
 
 // Mock all the react-router-dom hooks
+const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
     useLocation: jest.fn(),
+    useNavigate: () => mockNavigate,
     Link: ({ children, to }) => <a href={to}>{children}</a>
+}));
+
+// Mock AppAppBar component to avoid useNavigate issues
+jest.mock('../../components/layout/AppAppBar', () => {
+    return function MockAppAppBar() {
+        return <div data-testid="mock-app-bar">App Bar</div>;
+    };
+});
+
+// Mock request utility
+jest.mock('../../utils/request', () => ({
+    request: {
+        post: jest.fn().mockResolvedValue({})
+    }
 }));
 
 // Mock localStorage
 Object.defineProperty(window, 'localStorage', {
     value: {
-        getItem: jest.fn(() => null),
+        getItem: jest.fn(() => 'testuser'),
         setItem: jest.fn(),
         removeItem: jest.fn(),
     },
@@ -42,14 +58,18 @@ const renderWithRedux = (ui) => {
 
 describe('Product', () => {
     beforeEach(() => {
+        // Reset mocks
+        jest.clearAllMocks();
+        
         // Reset the mock and set default implementation for most tests
         const mockUseLocation = require('react-router-dom').useLocation;
         mockUseLocation.mockImplementation(() => ({
             state: {
                 product: {
-                    id: 1,
+                    Item_id: 1,
                     Title: 'Test Product',
                     Price: 99.99,
+                    Description: 'Test description',
                     Pic: '/images/test.jpg',
                     Seller_name: 'Test Seller'
                 }
@@ -88,7 +108,7 @@ describe('Product', () => {
         // Override the mock for this specific test
         const mockUseLocation = require('react-router-dom').useLocation;
         mockUseLocation.mockImplementation(() => ({
-            state: { product: null },
+            state: null,
             search: '?id=1'
         }));
 

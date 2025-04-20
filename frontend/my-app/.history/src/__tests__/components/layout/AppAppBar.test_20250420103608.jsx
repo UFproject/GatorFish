@@ -19,14 +19,11 @@ jest.mock('react-router-dom', () => ({
 }));
 
 // Mock request utility
-jest.mock('../../../utils/request', () => {
-    const mockPostFunction = jest.fn().mockResolvedValue({ items: [] });
-    return {
-        request: {
-            post: mockPostFunction
-        }
-    };
-});
+jest.mock('../../../utils/request', () => ({
+    request: {
+        post: jest.fn().mockResolvedValue({ items: [] })
+    }
+}));
 
 describe('AppAppBar', () => {
     beforeEach(() => {
@@ -94,16 +91,6 @@ describe('AppAppBar', () => {
 
     // Test search functionality
     test('handles search submission correctly', async () => {
-        // Create a mock implementation that calls navigate
-        request.post.mockImplementation(() => {
-            const result = { items: [] };
-            // Call mockNavigate directly in the mock to ensure it's called
-            setTimeout(() => {
-                mockNavigate('/search-results', { state: { res: result } });
-            }, 0);
-            return Promise.resolve(result);
-        });
-
         render(<AppAppBar />);
 
         // Find the search input and type something
@@ -116,8 +103,6 @@ describe('AppAppBar', () => {
         // Use act to handle async operations properly
         await act(async () => {
             fireEvent.click(searchButton);
-            // Small delay to allow the promise chain to complete
-            await new Promise(resolve => setTimeout(resolve, 50));
         });
 
         // Verify the API was called with correct parameters

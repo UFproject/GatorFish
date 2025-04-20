@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '../../../__tests__/test-utils';
+import { render, screen, fireEvent, waitFor } from '../../../__tests__/test-utils';
 import AppAppBar from '../../../components/layout/AppAppBar';
 import { clearUserInfo } from '../../../store/modules/user';
 import { request } from '../../../utils/request';
@@ -14,19 +14,15 @@ jest.mock('react-redux', () => ({
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
-    useNavigate: () => mockNavigate,
-    Link: ({ children, to, ...props }) => <a href={to} {...props}>{children}</a>
+    useNavigate: () => mockNavigate
 }));
 
 // Mock request utility
-jest.mock('../../../utils/request', () => {
-    const mockPostFunction = jest.fn().mockResolvedValue({ items: [] });
-    return {
-        request: {
-            post: mockPostFunction
-        }
-    };
-});
+jest.mock('../../../utils/request', () => ({
+    request: {
+        post: jest.fn().mockResolvedValue({ items: [] })
+    }
+}));
 
 describe('AppAppBar', () => {
     beforeEach(() => {
@@ -94,16 +90,6 @@ describe('AppAppBar', () => {
 
     // Test search functionality
     test('handles search submission correctly', async () => {
-        // Create a mock implementation that calls navigate
-        request.post.mockImplementation(() => {
-            const result = { items: [] };
-            // Call mockNavigate directly in the mock to ensure it's called
-            setTimeout(() => {
-                mockNavigate('/search-results', { state: { res: result } });
-            }, 0);
-            return Promise.resolve(result);
-        });
-
         render(<AppAppBar />);
 
         // Find the search input and type something
@@ -112,18 +98,14 @@ describe('AppAppBar', () => {
 
         // Find and click the search button
         const searchButton = screen.getByRole('button', { name: /search/i });
-
-        // Use act to handle async operations properly
-        await act(async () => {
-            fireEvent.click(searchButton);
-            // Small delay to allow the promise chain to complete
-            await new Promise(resolve => setTimeout(resolve, 50));
-        });
+        fireEvent.click(searchButton);
 
         // Verify the API was called with correct parameters
-        expect(request.post).toHaveBeenCalledWith('/items/Search', { query: 'test product' });
+        await waitFor(() => {
+            expect(request.post).toHaveBeenCalledWith('/items/Search', { query: 'test product' });
+        });
 
-        // Verify navigation occurred with correct parameters
+        // Verify navigation occurred
         expect(mockNavigate).toHaveBeenCalledWith('/search-results', { state: { res: { items: [] } } });
     });
 
