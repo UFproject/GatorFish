@@ -259,7 +259,27 @@ describe('Extended Search Functionality', () => {
     });
 });
 ```
-```
+
+# Backend Unit Test: `TestSearchController`
+
+## Function Under Test
+**Function**: `Search(ctx *gin.Context)`  
+**Route**: `POST /items/Search`  
+**Purpose**:  
+Search for items whose `title` or `description` contains the provided `query` keyword (case-insensitive).
+
+---
+
+## Test Scenarios
+
+| Test Name               | Input Payload                                 | Expected Status     | Description                                           |
+|-------------------------|-----------------------------------------------|---------------------|-------------------------------------------------------|
+| Valid Search Query      | `{ "query": "chair" }`                        | `200 OK`            | Returns matching items from database                 |
+| Missing Query Field     | `{}`                                          | `400 Bad Request`   | Fails when `query` key is not provided               |
+| Empty Query Value       | `{ "query": "" }`                             | `400 Bad Request`   | Fails when `query` value is empty                    |
+| Invalid JSON Payload    | `"not a valid json"`                          | `400 Bad Request`   | Fails if request body is not valid JSON              |
+
+---
 
 # Backend API Document
 
