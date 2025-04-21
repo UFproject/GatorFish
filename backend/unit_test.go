@@ -296,7 +296,7 @@ func TestSearchController(t *testing.T) {
 			name:       "Valid Search Query",
 			method:     "POST",
 			url:        "/items/Search",
-			body:       map[string]string{"query": "chair"},
+			body:       map[string]string{"query": "apple"},
 			wantStatus: http.StatusOK,
 			expectKey:  "items",
 		},

@@ -20,7 +20,7 @@ import (
 const JWTtoken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwNjIwNzQsInVzZXJuYW1lIjoiQW5uYSJ9.fyWVeszvyhRpOvu9G43FeKk1O2rG4S_shNfiFSuBc7c"
 
 // user Anna
-const AnnaToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDM0NjE0MzcsInVzZXJuYW1lIjoiQW5uYSJ9.zbV-cpa6dceH4JacjOwMttO2nGcckqq9lNp53ldbs5Q"
+const AnnaToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDU0ODU2NzQsInVzZXJuYW1lIjoiQW5uYSJ9.HpPY45ir_BcPd3PAEA6mcvvPLkYUVJkzUSznLRA5KZo"
 
 // include fileupload request
 func performMultipartRequest(r *gin.Engine, method, path string, formData map[string]string, filePath string) *httptest.ResponseRecorder {
