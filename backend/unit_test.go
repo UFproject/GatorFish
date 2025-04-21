@@ -279,3 +279,71 @@ func TestChangePasswordController(t *testing.T) {
 		})
 	}
 }
+func TestSearchController(t *testing.T) {
+	config.InitConfig()
+	gin.SetMode(gin.TestMode)
+	r := router.SetupRouter()
+
+	tests := []struct {
+		name       string
+		method     string
+		url        string
+		body       interface{}
+		wantStatus int
+		expectKey  string
+	}{
+		{
+			name:       "Valid Search Query",
+			method:     "POST",
+			url:        "/items/Search",
+			body:       map[string]string{"query": "chair"},
+			wantStatus: http.StatusOK,
+			expectKey:  "items",
+		},
+		{
+			name:       "Missing Query Field",
+			method:     "POST",
+			url:        "/items/Search",
+			body:       map[string]string{},
+			wantStatus: http.StatusBadRequest,
+		},
+		{
+			name:       "Empty Query Value",
+			method:     "POST",
+			url:        "/items/Search",
+			body:       map[string]string{"query": ""},
+			wantStatus: http.StatusBadRequest,
+		},
+		{
+			name:       "Invalid JSON Payload",
+			method:     "POST",
+			url:        "/items/Search",
+			body:       "not a valid json",
+			wantStatus: http.StatusBadRequest,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var jsonBody []byte
+			var err error
+
+			if str, ok := tt.body.(string); ok {
+				jsonBody = []byte(str)
+			} else {
+				jsonBody, err = json.Marshal(tt.body)
+				assert.NoError(t, err)
+			}
+
+			w := performRequest(r, tt.method, tt.url, jsonBody)
+			assert.Equal(t, tt.wantStatus, w.Code)
+
+			if tt.expectKey != "" && tt.wantStatus == http.StatusOK {
+				var response map[string]interface{}
+				err := json.Unmarshal(w.Body.Bytes(), &response)
+				assert.NoError(t, err)
+				assert.Contains(t, response, tt.expectKey)
+			}
+		})
+	}
+}
